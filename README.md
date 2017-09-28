@@ -8,7 +8,8 @@ Runs over http instead of https to avoid installing certs and keys.
 Avoids using any production ssh keys.  
 Has a process to disable all email account checking. (yet to be implemented)
 
-Might look at this [Mailhog](https://github.com/geerlingguy/ansible-role-mailhog) if needing to test emails being sent.
+Might look at [Mailhog](https://github.com/geerlingguy/ansible-role-mailhog) if needing to test emails being sent.
+Might look at [XDebug] (https://github.com/geerlingguy/ansible-role-php-xdebug) if needing a full debugger. 
 
 ## Prerequisites
 
@@ -21,6 +22,8 @@ Before running you will need to have done the following:
 * Copy an SQL dump of a working OsTicket datbase to file named database_to_import.sql in the top level directory of this repo.
 
 ^- Currently this only works with an existing dump file, a future update will make this optional and configure OsTicket to run the setup intially instead.
+
+* Browse the main ansible provisioning script `roles/perryk.osticket.provision.dev/tasks/main.yml` to see if there is anything you would like to change.
 
 ## Running
 
