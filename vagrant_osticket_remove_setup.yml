@@ -1,0 +1,29 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# Removes the osticket setup folder and secures the osticket config file.
+#
+---
+- hosts: all
+
+  become: True
+  become_user: root  
+
+  gather_facts: false
+  
+  vars:
+
+  tasks:
+    - name: Remove the osticket setup folder
+      file:
+        path: /var/www/html/osticket/setup
+        state: absent
+
+    - name: Secure config file so it cannot be written to by apache
+      file:
+        path: /var/www/html/osticket/include/ost-config.php
+        owner: osticket
+        group: apache
+        mode: 0640
+        setype: httpd_sys_content_t
+
+

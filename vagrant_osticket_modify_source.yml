@@ -1,0 +1,90 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# after OS install and provisioning of standard osticket, this script can be used to apply further specific code modifications
+#
+---
+- hosts: all
+
+  become: True
+  become_user: osticket 
+
+  gather_facts: false
+  
+  vars:
+
+  tasks:
+
+    - name: configure git name, email, and color, just for this repo
+      git_config:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        repo: ~/osTicket
+        scope: local
+      with_items:
+        - { name: 'colour.ui' , value: 'auto' }  
+        - { name: 'user.name' , value: 'Vagrant' }  
+        - { name: 'user.email' , value: 'nowhere@really.org' }
+
+    - name: run a script, only once though
+      shell: |
+        echo "said fred" > right.txt
+        #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/3983/head
+        git pull --no-edit origin refs/pull/3980/head
+        git pull --no-edit origin refs/pull/3977/head
+        git pull --no-edit origin refs/pull/3976/head
+        git pull --no-edit origin refs/pull/3962/head
+        git pull --no-edit origin refs/pull/3958/head
+        git pull --no-edit origin refs/pull/3956/head
+        git pull --no-edit origin refs/pull/3955/head
+        git pull --no-edit origin refs/pull/3948/head
+        git pull --no-edit origin refs/pull/3940/head
+        git pull --no-edit origin refs/pull/3931/head
+        git pull --no-edit origin refs/pull/3924/head
+        git pull --no-edit origin refs/pull/3920/head
+        git pull --no-edit origin refs/pull/3915/head
+        git pull --no-edit origin refs/pull/3904/head
+        git pull --no-edit origin refs/pull/3901/head
+        git pull --no-edit origin refs/pull/3899/head
+        git pull --no-edit origin refs/pull/3898/head
+        git pull --no-edit origin refs/pull/3893/head
+        git pull --no-edit origin refs/pull/3889/head
+        git pull --no-edit origin refs/pull/3885/head
+        git pull --no-edit origin refs/pull/3883/head
+        git pull --no-edit origin refs/pull/3882/head
+        git pull --no-edit origin refs/pull/3875/head
+        git pull --no-edit origin refs/pull/3868/head
+        git pull --no-edit origin refs/pull/3738/head
+        git pull --no-edit origin refs/pull/3628/head
+        git pull --no-edit origin refs/pull/3625/head
+        git pull --no-edit origin refs/pull/3623/head
+        git pull --no-edit origin refs/pull/3562/head
+        git pull --no-edit origin refs/pull/3543/head
+        git pull --no-edit origin refs/pull/3526/head
+        git pull --no-edit origin refs/pull/3484/head
+        git pull --no-edit origin refs/pull/3456/head
+        git pull --no-edit origin refs/pull/3373/head
+        git remote add perryk https://github.com/perryk/osTicket.git
+        git pull --no-edit perryk onhold-mod-by-nicktheitguy
+        git pull --no-edit perryk fix-missing-agent-welcome-tickbox
+        git pull --no-edit perryk mod-add-favicon
+        git pull --no-edit perryk mod-allow-agent-emails-to-users
+        git pull --no-edit perryk mod-allow-agents-unassign-themselves-from-ticket
+        git pull --no-edit perryk mod-enable-plugin-archiver
+        git pull --no-edit perryk mod-reduce-min-length-agent-phone
+        git pull --no-edit perryk mod-replace-priority-with-departments
+        git pull --no-edit perryk mod-show-offsite-images-by-default
+        git pull --no-edit perryk hardset-brisbane-timezone
+        ./manage.php deploy /var/www/html/osticket
+      args:
+        chdir: ~/osTicket
+        creates: right.txt
+
+#    - name: copy in a different favicon for use with one of the mods above
+#      copy:
+#        src:  favicon.png
+#        dest: /var/www/html/osticket/favicon.ico
+#        owner: osticket
+#        group: osticket
+
+
