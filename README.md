@@ -1,6 +1,6 @@
 # Vagrant - Centos - Ansible - OsTicket and dev tools
 
-## This project allows vagrant to manage a Centos 7 VM running OsTicket for development using Ansible for provisioning.
+## This project configures a Vagrant managed Centos 7 VM running OsTicket for development using Ansible for provisioning.
 
 This differs slightly from a production instance in the following way:
 
@@ -14,9 +14,9 @@ Before running you will need to have done the following:
 
 * If not already done so, install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](http://docs.ansible.com/intro_installation.html).
 
-  Currently I'm using Virtualbox 5.1.22, Vagrant 2.0.0, and Ansible 2.4.0.0 running from Ubuntu.
+  Currently tested using Virtualbox 5.1.22, Vagrant 2.0.0, and Ansible 2.4.0.0 running from Ubuntu.
 
-* Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml`
+* Install the required Ansible roles: `$ ansible-galaxy install -r [requirements.yml](requirements.yml)`
 
 * Download this Vagrant box which has virtualbox guest extensions already installed.
 
@@ -26,7 +26,7 @@ Before running you will need to have done the following:
 
   `vagrant plugin install vagrant-timezone` (required)
 
-  `vagrant plugin install vagrant-cachier` (optional, modify Vagrantfile if you don't wish to use)
+  `vagrant plugin install vagrant-cachier` (optional, modify [Vagrantfile](Vagrantfile) if you don't wish to use)
 
 * Browse the ansible variables file here [`roles/perryk.osticket.provision.dev/vars/main/yml`](roles/perryk.osticket.provision.dev/vars/main/yml) to see if there is anything you would like to change.
 
