@@ -1,0 +1,11 @@
+---
+mariadb_root_password: mariaostdev!@#
+
+apache_server_name: osticket-dev
+apache_server_admin: your@email.here
+apache_document_root: /var/www/html/osticket/
+
+osticket_adminemail: your@email.here
+osticket_dbname: osticket-dev
+osticket_dbuser: osticket
+osticket_dbpass: ostdev!@#

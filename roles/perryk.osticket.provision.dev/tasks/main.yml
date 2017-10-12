@@ -1,0 +1,303 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# after OS install this script can be used to install osticket on a centos host
+#
+---
+
+- name: yum update
+  yum:
+    name: '*'
+    state: latest
+
+- name: yum install "Development Tools" group
+  yum:
+    name: "@Development tools"
+    state: present
+
+- name: yum install standard packages we like
+  yum: 
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+      - open-vm-tools
+      - wget
+      - mc
+      - elinks
+      - vim
+      - ntp
+      - ntpdate
+
+- name: yum install httpd and mariadb
+  yum: 
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - httpd
+    #- httpd-devel
+    - mod_ssl
+    - mariadb-server
+    - mariadb
+    #- mariadb-devel
+    - MySQL-python
+    - libsemanage-python
+    - policycoreutils-python
+
+- name: yum install everything php related from yumi repo
+  yum: 
+    name: "{{ item }}"
+    enablerepo: remi,remi-php56
+    #enablerepo: remi,remi-php70
+    state: present
+  with_items:
+    - php
+    #- php-devel
+    - phpmyadmin
+    - php-mysql
+    - php-gd
+    - php-php-gettext
+    - php-imap
+    - php-mbstring
+    - php-xml
+    - php-pecl-apcu
+    - php-intl
+    - php-pecl-zendopcache
+    - php-ldap
+
+- name: ntpd enable + start
+  systemd:
+    name: ntpd
+    enabled: yes
+    state: started
+
+- name: modify php config
+  ini_file:
+    dest: /etc/php.ini
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { section: Date, option: date.timezone, value: Australia/Brisbane }
+    - { section: PHP, option: upload_max_filesize, value: 20M }
+
+- name: modify phpMyAdmin config
+  replace:
+    path: /etc/httpd/conf.d/phpMyAdmin.conf
+    regexp: "^(.*)Require local(.*)$"
+    replace: "     Require ip 10.0.0.1"
+    backup: yes
+
+- name: mariadb enable + start
+  systemd:
+    name: mariadb
+    enabled: yes
+    state: started
+
+- name: delete anonymous MySQL server user for {{ ansible_nodename }}
+  mysql_user:
+    name: ""
+    host_all: yes
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    check_implicit_admin: yes
+    state: absent
+
+- name: Change root user password on first run
+  mysql_user:
+    host_all: yes
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    check_implicit_admin: yes
+    name: root
+    password: "{{ mariadb_root_password }}"
+    priv: "*.*:ALL,GRANT"
+ 
+- name: remove the MySQL test database
+  mysql_db:
+      login_user: root
+      login_password: "{{ mariadb_root_password }}"
+      db: test
+      state: absent
+  notify: restart mariadb
+
+- name: create database user {{ osticket_dbuser }} with access to database {{ osticket_dbname }}
+  mysql_user:
+    name: "{{ osticket_dbuser }}"
+    password: "{{ osticket_dbpass }}"
+    priv: "{{ osticket_dbname }}.*:ALL"
+    host: localhost
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: present
+
+- name: add a service user, osticket
+  user:
+    name: osticket
+
+- name: create database {{ osticket_dbname }} 
+  mysql_db: 
+    name: "{{ osticket_dbname }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: present
+  register: databasecreate
+
+- name: Check for preexisting database export file
+  local_action: stat path=database_to_import.sql
+  become: no
+  register: importfile
+
+- name: copy preexisting database export file into place
+  copy: 
+    src: database_to_import.sql
+    dest: /home/osticket/database_to_import.sql
+  when: databasecreate.changed and importfile.stat.exists
+
+- name: import preexisting database sql file into database {{ osticket_dbname }}
+  mysql_db: 
+    name: "{{ osticket_dbname }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    target: /home/osticket/database_to_import.sql
+    state: import
+  when: databasecreate.changed and importfile.stat.exists
+
+- name: remove preexisting database export file
+  file:
+    path: /home/osticket/database_to_import.sql
+    state: absent
+  when: databasecreate.changed and importfile.stat.exists
+
+- name: create webroot folder
+  file: dest=/var/www/html/osticket state=directory owner=osticket group=osticket
+
+- name: as osticket grab the latest source from osTicket's githib
+  git:
+    repo: "https://github.com/osTicket/osTicket.git"
+    dest: ~/osTicket
+    accept_hostkey: yes
+    version: develop
+  become_user: osticket
+  register: osticketrepoclone
+
+- name: Clone a bunch of plugin repos and place into their own folders under  main repo folder
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { repo: 'https://github.com/clonemeagain/attachment_preview.git', dest: '~/osTicket/include/plugins/attachment_preview' }
+    - { repo: 'https://github.com/clonemeagain/osticket-plugin-mentioner.git', dest: '~/osTicket/include/plugins/mentioner' }
+    - { repo: 'https://github.com/clonemeagain/plugin-autocloser.git', dest: '~/osTicket/include/plugins/autocloser' }
+    - { repo: 'https://github.com/clonemeagain/plugin-fwd-rewriter.git', dest: '~/osTicket/include/plugins/fwd-rewriter' }
+    - { repo: 'https://github.com/clonemeagain/osticket-plugin-archiver.git', dest: '~/osTicket/include/plugins/archiver' }
+    - { repo: 'https://github.com/Micke1101/OSTicket-plugin-Merging.git', dest: '~/osTicket/include/plugins/merging' }
+  become_user: osticket
+  register: otherreposclone 
+
+- name: set handler if repos have changed
+  set_fact: somethingchanged=yes
+  when: osticketrepoclone.changed or otherreposclone.changed
+  notify: deploy osticket
+
+- name: a once off osticket deploy osticket without setup now so that .phar plugins can be downloaded and other folders created
+  command: ./manage.php deploy /var/www/html/osticket
+  args:
+    chdir: /home/osticket/osTicket
+    creates: /var/www/html/osticket/include
+  when: osticketrepoclone.changed or otherreposclone.changed
+  become_user: osticket
+  ignore_errors: yes
+
+  # unsure why this doesn't work for the second download but doing each download individually does work
+  #- name: download .phar modules directly from osticket
+  #get_url: 
+  #  url: '{{ item.url }}'
+  #  dest: '{{ item.dest }}'
+  #become_user: osticket
+  #with_items:
+  #  - { url: 'http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar', dest: '/var/www/html/osticket/include/plugins/' }
+  #  - { url: 'http://osticket.com/sites/default/files/download/plugin/storage.fs.phar', dest: '/var/www/html/osticket/include/plugins/' }
+
+- name: download osticket ldap module directly from osticket
+  get_url:
+    url: http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar
+    dest: /var/www/html/osticket/include/plugins/auth-ldap.phar
+  become_user: osticket
+
+- name: download osticket filesystem module directly from osticket
+  get_url:
+    url: http://osticket.com/sites/default/files/download/plugin/storage-fs.phar
+    dest: /var/www/html/osticket/include/plugins/storage-fs.phar
+  become_user: osticket
+
+- name: create directories for attachments and archives
+  file:
+    dest: '{{ item.dest }}'
+    state: directory
+    owner: apache
+    group: osticket
+  with_items:
+    - { dest: '/var/www/html/attachments' }
+    - { dest: '/var/www/html/archives' }
+
+- name: set selinux perms for attachments and archives directories
+  file:
+    path: '{{ item.path }}'
+    setype: httpd_sys_rw_content_t
+  with_items:
+    - { path: '/var/www/html/attachments' }
+    - { path: '/var/www/html/archives' }
+
+- name: deploy osticket with setup if importfile did not exist
+  command: ./manage.php deploy --setup /var/www/html/osticket
+  args:
+    chdir: /home/osticket/osTicket
+    creates: /var/www/html/osticket/include/setup
+  when: not importfile.stat.exists 
+  become_user: osticket
+  ignore_errors: yes
+
+- name: copy ost-sampleconfig.php to ost-config inside /var/www/html/osticket/include and allow to be written by apache if importfile did not exist
+  copy:
+    src: /var/www/html/osticket/include/ost-sampleconfig.php
+    dest: /var/www/html/osticket/include/ost-config.php
+    owner: osticket
+    group: apache
+    mode: 0660
+    remote_src: yes
+    setype: httpd_sys_rw_content_t
+  when: not importfile.stat.exists
+
+- name: Use template to generate ost-config.php config file for osticket if importfile did exist
+  template:
+    src: templates/ost-config.php.j2
+    dest: /var/www/html/osticket/include/ost-config.php
+    owner: osticket
+    group: apache
+    mode: 0640
+    setype: httpd_sys_content_t
+  when: importfile.stat.exists
+
+- name: Use template to generate httpd config for osticket
+  template:
+    src: templates/osticket.conf.j2
+    dest: /etc/httpd/conf.d/osticket.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart httpd
+
+- name: set selinux sebooleans
+  seboolean:
+    name: '{{ item.name }}'
+    state: yes
+    persistent: yes
+  with_items:
+    - { name: httpd_can_sendmail }
+    - { name: httpd_can_connect_ldap }
+
+- name: httpd enable + start
+  systemd:
+    name: httpd
+    enabled: yes
+    state: started
+

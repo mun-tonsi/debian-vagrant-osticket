@@ -1,0 +1,14 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# after OS install this script can be used to install osticket on a centos host
+#
+---
+- hosts: all
+
+  roles:
+    - geerlingguy.repo-epel
+    - geerlingguy.repo-remi
+    #    - geerlingguy.mailhog
+    - perryk.osticket.provision.dev
+    - perryk.liquidprompt
+
