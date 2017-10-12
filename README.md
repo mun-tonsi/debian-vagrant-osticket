@@ -28,9 +28,9 @@ Before running you will need to have done the following:
 
   `vagrant plugin install vagrant-cachier` (optional, modify Vagrantfile if you don't wish to use)
 
-* Browse the ansible variables file here `roles/perryk.osticket.provision.dev/vars/main/yml` to see if there is anything you would like to change.
+* Browse the ansible variables file here [`roles/perryk.osticket.provision.dev/vars/main/yml`](roles/perryk.osticket.provision.dev/vars/main/yml) to see if there is anything you would like to change.
 
-* Browse the ansible provisioning scripts `playbook.yml` and `roles/perryk.osticket.provision.dev/tasks/main.yml` to see if there is anything you would like to change.
+* Browse the ansible provisioning scripts [`playbook.yml`](playbook.yml) and [`roles/perryk.osticket.provision.dev/tasks/main.yml`](roles/perryk.osticket.provision.dev/tasks/main.yml) to see if there is anything you would like to change.
 
 * Set an entry in your hosts file to point 10.0.0.10 to osticket-dev . (optional)
 
@@ -59,11 +59,17 @@ After a successfull "vagrant up", or after you have finsihed a manual setup, you
 
 This has the latest source code from [osTicket](https://github.com/osticket/osticket).
 
-If you wish to further modify the code, there is a script included which will pull a number of PRs and some branches from my own OsTicket fork.
+If you wish to further modify the osTicket code, there is a script included which will pull a number of PRs and some branches from my own OsTicket fork.
 
-Review this file prior to use, and use `./vagrant_osticket_modify_source.sh` to run it.
+Review this file prior to use, and use [`./vagrant_osticket_modify_source.sh`](vagrant_osticket_modify_source.sh) to run it.
 
 It is very likely this script will become out of date quickly so please use with care and check the PRs on the osTicket github site.
+
+After a successful "vagrant ssh", it is possible to change to the service account with `sudo su - osticket` . This account can be used to edit the source and issue commands to the osTicket cli interface.
+
+One such important command is used to deploy changes from the osTicket repo into the webroot. First `cd osTicket` to change directory to the source code, then perhaps `git pull` to obtain the latest files, then finally `./manage deploy /var/www/html/osticket` to update the webroot.
+
+OsTicket plugins have been cloned into the `~/osTicket/include/plugins` folder also and similarly it is possible to change directory into these, pull changes, and then change directory back to `~/osTicket` before issuing the `./manage deploy /var/www/html/osticket` command again.
 
 
 ## Todo
