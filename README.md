@@ -19,9 +19,18 @@ Before running you will need to have done the following:
 
 * Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml`
 
-* Install a required Vagrant plugin: `vagrant plugin install vagrant-timezone`
+* Install the following Vagrant plugins: 
 
-* (preferred) Have an SQL dump of a working OsTicket database in a file named database_to_import.sql in the top level directory of this repo.
+  `vagrant plugin install vagrant-timezone` (required)
+  `vagrant plugin install vagrant-cachier` (optional, modify Vagrantfile if you don't wish to use)
+
+* Browse the main ansible provisioning script `roles/perryk.osticket.provision.dev/tasks/main.yml` to see if there is anything you would like to change.
+
+* Set an entry in your hosts file to point 10.0.0.10 to osticket-dev .
+
+  `10.0.0.10 osticket-dev`
+
+* (Optional but preferred) Have an SQL dump of a working OsTicket database in a file named database_to_import.sql in the top level directory of this repo.
 
   If this database file does not exist, this will copy in the setup folder and sample config file to the webroot so setup can be manually done.
 
