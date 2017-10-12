@@ -16,8 +16,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :private_network, ip: "10.0.0.10"
 
   if Vagrant.has_plugin?("vagrant-timezone")
-    #config.timezone.value = :host
-    config.timezone.value = "Australia/Brisbane"
+    config.timezone.value = :host
+    #config.timezone.value = "Australia/Brisbane"
     #config.timezone.value = "+10:00"
   end
 
