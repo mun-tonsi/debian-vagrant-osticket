@@ -14,7 +14,7 @@ Before running you will need to have done the following:
 
 * If not already done so, install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](http://docs.ansible.com/intro_installation.html).
 
-  Currently I'm using Virtualbox 5.1.22, Vagran 2.0.0, and Ansible 2.4.0.0 running from Ubuntu.
+  Currently I'm using Virtualbox 5.1.22, Vagrant 2.0.0, and Ansible 2.4.0.0 running from Ubuntu.
 
 * Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml`
 
@@ -36,7 +36,7 @@ Before running you will need to have done the following:
 
   `10.0.0.10 osticket-dev`
 
-* (Optional but preferred) Have an SQL dump of a working OsTicket database in a file named database_to_import.sql in the top level directory of this repo.
+* (Optional but preferred) Have an SQL dump of a working OsTicket database in a file named `database_to_import.sql` in the top level directory of this repo.
 
   If this database file does not exist, this will copy in the setup folder and sample config file to the webroot so setup can be manually done.
 
@@ -47,7 +47,7 @@ Before running you will need to have done the following:
 
 ## Running
 
-The usual vagrant commands will manage vagrant:
+The usual Vagrant commands will manage Vagrant:
 
 `vagrant up`, to create a new VM, install the base box, and run the ansible script to provision it.
 
@@ -63,17 +63,17 @@ If you wish to further modify the code, there is a script included which will pu
 
 Review this file prior to use, and use `./vagrant_osticket_modify_source.sh` to run it.
 
-It is very likely whis script will become out of date quickly so please use with care and check the PRs on the osTicket github site.
+It is very likely this script will become out of date quickly so please use with care and check the PRs on the osTicket github site.
 
 
 ## Todo
 
 A process to disable all email checking or implement something like Mailhog for email testing.
 
-A script to take an sql dump from the existing running instance and save as database_to_import.sql
+A script to take an sql dump from the existing running instance and save as database_to_import.sql .
 
 Might look at these also:
 
 * [Mailhog](https://github.com/geerlingguy/ansible-role-mailhog) if needing to test emails being sent.
-* [XDebug] (https://github.com/geerlingguy/ansible-role-php-xdebug) if needing a full debugger. 
+* [XDebug](https://github.com/geerlingguy/ansible-role-php-xdebug) if needing a full debugger. 
 
