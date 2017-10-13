@@ -247,16 +247,21 @@
     - { path: '/var/www/html/attachments' }
     - { path: '/var/www/html/archives' }
 
-- name: deploy osticket with setup if importfile did not exist
+- name: check to see if the the osticket config file exists
+  stat:
+    path: /var/www/html/osticket/include/ost-config.php
+  register: ostconfigfile
+
+- name: deploy osticket with setup if importfile did not exist and if config file not already in place
   command: ./manage.php deploy --setup /var/www/html/osticket
   args:
     chdir: /home/osticket/osTicket
     creates: /var/www/html/osticket/include/setup
-  when: not importfile.stat.exists 
+  when: not importfile.stat.exists and not ostconfigfile.stat.exists
   become_user: osticket
   ignore_errors: yes
 
-- name: copy ost-sampleconfig.php to ost-config inside /var/www/html/osticket/include and allow to be written by apache if importfile did not exist
+- name: copy ost-sampleconfig.php to ost-config inside /var/www/html/osticket/include and allow to be written by apache if importfile did not exist and if config file not already in place
   copy:
     src: /var/www/html/osticket/include/ost-sampleconfig.php
     dest: /var/www/html/osticket/include/ost-config.php
@@ -265,9 +270,9 @@
     mode: 0660
     remote_src: yes
     setype: httpd_sys_rw_content_t
-  when: not importfile.stat.exists
+  when: not importfile.stat.exists and not ostconfigfile.stat.exists
 
-- name: Use template to generate ost-config.php config file for osticket if importfile did exist
+- name: Use template to generate ost-config.php config file for osticket if importfile did exist and if config file not already in place
   template:
     src: templates/ost-config.php.j2
     dest: /var/www/html/osticket/include/ost-config.php
@@ -275,7 +280,7 @@
     group: apache
     mode: 0640
     setype: httpd_sys_content_t
-  when: importfile.stat.exists
+  when: importfile.stat.exists and not ostconfigfile.stat.exists
 
 - name: Use template to generate httpd config for osticket
   template:
