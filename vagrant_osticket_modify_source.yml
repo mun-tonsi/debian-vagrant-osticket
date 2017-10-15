@@ -29,6 +29,9 @@
       shell: |
         echo "said fred" > right.txt
         #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4002/head
+        git pull --no-edit origin refs/pull/4001/head
+        git pull --no-edit origin refs/pull/3996/head
         git pull --no-edit origin refs/pull/3983/head
         git pull --no-edit origin refs/pull/3980/head
         git pull --no-edit origin refs/pull/3977/head
@@ -64,6 +67,7 @@
         git pull --no-edit origin refs/pull/3484/head
         git pull --no-edit origin refs/pull/3456/head
         git pull --no-edit origin refs/pull/3373/head
+        git pull --no-edit origin refs/pull/3111/head
         git remote add perryk https://github.com/perryk/osTicket.git
         git pull --no-edit perryk onhold-mod-by-nicktheitguy
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
