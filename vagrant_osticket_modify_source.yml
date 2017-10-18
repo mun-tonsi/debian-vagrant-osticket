@@ -79,6 +79,7 @@
         git pull --no-edit perryk mod-replace-priority-with-departments
         git pull --no-edit perryk mod-show-offsite-images-by-default
         git pull --no-edit perryk hardset-brisbane-timezone
+        git pull --no-edit perryk mod-remove-rego-check-status-client-page
         ./manage.php deploy /var/www/html/osticket
       args:
         chdir: ~/osTicket

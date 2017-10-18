@@ -8,7 +8,7 @@
   roles:
     - geerlingguy.repo-epel
     - geerlingguy.repo-remi
-    #    - geerlingguy.mailhog
+    - geerlingguy.mailhog
     - perryk.osticket.provision.dev
     - perryk.liquidprompt
 
