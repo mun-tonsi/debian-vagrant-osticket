@@ -29,6 +29,16 @@
       shell: |
         echo "said fred" > right.txt
         #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4027/head
+        git pull --no-edit origin refs/pull/4020/head
+        git pull --no-edit origin refs/pull/4019/head
+        git pull --no-edit origin refs/pull/4018/head
+        git pull --no-edit origin refs/pull/4017/head
+        git pull --no-edit origin refs/pull/4016/head
+        git pull --no-edit origin refs/pull/4014/head
+        git pull --no-edit origin refs/pull/4012/head
+        git pull --no-edit origin refs/pull/4008/head
+        git pull --no-edit origin refs/pull/4007/head
         git pull --no-edit origin refs/pull/4002/head
         git pull --no-edit origin refs/pull/4001/head
         git pull --no-edit origin refs/pull/3996/head
@@ -45,7 +55,6 @@
         git pull --no-edit origin refs/pull/3931/head
         git pull --no-edit origin refs/pull/3924/head
         git pull --no-edit origin refs/pull/3920/head
-        git pull --no-edit origin refs/pull/3915/head
         git pull --no-edit origin refs/pull/3904/head
         git pull --no-edit origin refs/pull/3901/head
         git pull --no-edit origin refs/pull/3899/head
