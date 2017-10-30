@@ -1,0 +1,31 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# after OS install and provisioning of standard osticket, this script can be used to apply further specific code modifications
+#
+---
+- hosts: all
+
+  become: True
+  become_user: osticket 
+
+  gather_facts: false
+
+  vars:
+
+  tasks:
+ 
+    - include_vars: 'roles/perryk.osticket.provision.dev/vars/main.yml'
+
+    - name: Turn off email checking on all email accounts
+      command: >
+        mysql --user="{{ osticket_dbuser }}" --password="{{ osticket_dbpass }}" "{{ osticket_dbname }}" 
+        --skip-column-names --silent
+        --execute="UPDATE ost_email SET mail_active = 0"
+      register: turnoffemails
+      #always_run: True
+      changed_when: False
+
+    - name: Display stdout of command
+      debug: var=turnoffemails.stdout
+
+
