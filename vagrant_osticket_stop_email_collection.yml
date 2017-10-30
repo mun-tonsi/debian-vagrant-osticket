@@ -1,6 +1,6 @@
 # vim: set ft=ansible et ts=2 sw=2:
 #
-# after OS install and provisioning of standard osticket, this script can be used to apply further specific code modifications
+# after importing an existing database this runs a mysql UPDATE command to turn off email checking
 #
 ---
 - hosts: all
