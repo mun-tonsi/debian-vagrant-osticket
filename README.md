@@ -6,7 +6,8 @@ This differs slightly from a production instance in the following way:
 
 * Runs over http instead of https to avoid installing certs and keys.
 * Avoids using any production ssh keys.
-* Has a process to disable all email account checking. (yet to be implemented)
+* Has a process to disable all email account checking. (working however is a manual step)
+* Does not include adding a cron job for email collection, it would be bad if your dev setup collected real email meant for prod.
 
 ## Prerequisites
 
@@ -71,10 +72,11 @@ One such important command is used to deploy changes from the osTicket repo into
 
 OsTicket plugins have been cloned into the `~/osTicket/include/plugins` folder also and similarly it is possible to change directory into these, pull changes, and then change directory back to `~/osTicket` before issuing the `./manage deploy /var/www/html/osticket` command again.
 
+If you have imported a database from production it likely has email collection already configured and you will want to turn that off. Whilst cron is already missing, it is nice to have the extra reassurance that everything is turned off further. There is a script available which will set the database settings for each email account configured is set to disabled. Use [`./vagrant_osticket_stop_email_collection.sh`](vagrant_osticket_stop_email_collection.sh) to run it.
 
 ## Todo
 
-A process to disable all email checking or implement something like Mailhog for email testing.
+A script to change email settings so Mailhog is actually used. Currently it is setup and available from http://10.0.0.10:8025 however.
 
 A script to take an sql dump from the existing running instance and save as database_to_import.sql .
 
