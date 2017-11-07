@@ -41,6 +41,8 @@
     - MySQL-python
     - libsemanage-python
     - policycoreutils-python
+    - kernel-headers
+    - kernel-devel
 
 - name: yum install everything php related from yumi repo
   yum: 
