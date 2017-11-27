@@ -29,6 +29,11 @@
       shell: |
         echo "said fred" > right.txt
         #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4093/head
+        git pull --no-edit origin refs/pull/4088/head
+        git pull --no-edit origin refs/pull/4086/head
+        git pull --no-edit origin refs/pull/4083/head
+        git pull --no-edit origin refs/pull/4082/head
         git pull --no-edit origin refs/pull/4050/head
         git pull --no-edit origin refs/pull/4049/head
         git pull --no-edit origin refs/pull/4048/head
@@ -74,6 +79,7 @@
         git pull --no-edit origin refs/pull/3882/head
         git pull --no-edit origin refs/pull/3875/head
         git pull --no-edit origin refs/pull/3868/head
+        git pull --no-edit origin refs/pull/3795/head
         git pull --no-edit origin refs/pull/3738/head
         git pull --no-edit origin refs/pull/3628/head
         git pull --no-edit origin refs/pull/3625/head
@@ -93,9 +99,9 @@
         git pull --no-edit perryk mod-allow-agents-unassign-themselves-from-ticket
         git pull --no-edit perryk mod-enable-plugin-archiver
         git pull --no-edit perryk mod-reduce-min-length-agent-phone
-        git pull --no-edit perryk mod-replace-priority-with-departments
+        #git pull --no-edit perryk mod-replace-priority-with-departments
         git pull --no-edit perryk mod-show-offsite-images-by-default
-        git pull --no-edit perryk hardset-brisbane-timezone
+        #git pull --no-edit perryk hardset-brisbane-timezone
         git pull --no-edit perryk mod-remove-rego-check-status-client-page
         ./manage.php deploy /var/www/html/osticket
       args:
