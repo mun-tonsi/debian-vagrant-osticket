@@ -17,7 +17,7 @@ Before running you will need to have done the following:
 
   Currently tested using Virtualbox 5.1.22, Vagrant 2.0.0, and Ansible 2.4.0.0 running from Ubuntu.
 
-* Install the required Ansible roles: `$ ansible-galaxy install -r [requirements.yml](requirements.yml)`
+* Install the required Ansible roles: `$ ansible-galaxy install -r [`requirements.yml`](requirements.yml)`
 
 * Download this Vagrant box which has virtualbox guest extensions already installed.
 
@@ -82,6 +82,5 @@ A script to take an sql dump from the existing running instance and save as data
 
 Might look at these also:
 
-* [Mailhog](https://github.com/geerlingguy/ansible-role-mailhog) if needing to test emails being sent.
 * [XDebug](https://github.com/geerlingguy/ansible-role-php-xdebug) if needing a full debugger. 
 

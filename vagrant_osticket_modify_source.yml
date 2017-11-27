@@ -75,7 +75,8 @@
         git pull --no-edit origin refs/pull/3893/head
         git pull --no-edit origin refs/pull/3889/head
         git pull --no-edit origin refs/pull/3885/head
-        git pull --no-edit origin refs/pull/3883/head
+        #git pull --no-edit origin refs/pull/3883/head
+        #^removing just for the moment as merge conflict with #3795
         git pull --no-edit origin refs/pull/3882/head
         git pull --no-edit origin refs/pull/3875/head
         git pull --no-edit origin refs/pull/3868/head
