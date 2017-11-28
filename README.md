@@ -43,7 +43,7 @@ Before running you will need to have done the following:
 
   Manually complete setup by visiting `http://10.0.0.10/setup` AFTER the first `vagrant up` command as per below.
 
-  After manually running setup, run the script [./ansible_vagrant_osticket_remove_setup.sh](ansible_vagrant_osticket_remove_setup.sh) to have the setup directory removed and the ost-config.php secured so it cannot be written any further.
+  After manually running setup, run the script `./ansible_vagrant_osticket_remove_setup.sh` to have the setup directory removed and the ost-config.php secured so it cannot be written any further.
 
 
 ## Running
@@ -62,7 +62,7 @@ This has the latest source code from [osTicket](https://github.com/osticket/osti
 
 If you wish to further modify the osTicket code, there is a script included which will pull a number of PRs and some branches from my own OsTicket fork.
 
-Review this file prior to use, and use [./vagrant_osticket_modify_source.sh](vagrant_osticket_modify_source.sh) to run it.
+Review this file prior to use, and use `./vagrant_osticket_modify_source.sh` to run it.
 
 It is very likely this script will become out of date quickly so please use with care and check the PRs on the osTicket github site.
 
@@ -72,7 +72,7 @@ One such important command is used to deploy changes from the osTicket repo into
 
 OsTicket plugins have been cloned into the `~/osTicket/include/plugins` folder also and similarly it is possible to change directory into these, pull changes, and then change directory back to `~/osTicket` before issuing the `./manage deploy /var/www/html/osticket` command again.
 
-If you have imported a database from production it likely has email collection already configured and you will want to turn that off. Whilst cron is already missing, it is nice to have the extra reassurance that everything is turned off further. There is a script available which will set the database settings for each email account configured is set to disabled. Use [./vagrant_osticket_stop_email_collection.sh](vagrant_osticket_stop_email_collection.sh) to run it.
+If you have imported a database from production it likely has email collection already configured and you will want to turn that off. Whilst cron is already missing, it is nice to have the extra reassurance that everything is turned off further. There is a script available which will set the database settings for each email account configured is set to disabled. Use `./vagrant_osticket_stop_email_collection.sh` to run it.
 
 ## Todo
 
