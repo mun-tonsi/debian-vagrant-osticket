@@ -17,21 +17,21 @@ Before running you will need to have done the following:
 
   Currently tested using Virtualbox 5.1.22, Vagrant 2.0.0, and Ansible 2.4.0.0 running from Ubuntu.
 
-* Install the required Ansible roles: `$ ansible-galaxy install -r [`requirements.yml`](requirements.yml)`
+* Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml` View [here](requirements.yml).
 
 * Download this Vagrant box which has virtualbox guest extensions already installed.
 
   `vagrant box add "geerlingguy/centos7"`
 
-* Install the following Vagrant plugins: 
+* Optionally install the following Vagrant plugins: 
 
-  `vagrant plugin install vagrant-timezone` (required)
+  `vagrant plugin install vagrant-timezone`
 
-  `vagrant plugin install vagrant-cachier` (optional, modify [Vagrantfile](Vagrantfile) if you don't wish to use)
+  `vagrant plugin install vagrant-cachier`
 
-* Browse the ansible variables file here [`roles/perryk.osticket.provision.dev/vars/main/yml`](roles/perryk.osticket.provision.dev/vars/main/yml) to see if there is anything you would like to change.
+* Browse the ansible variables file [roles/perryk.osticket.provision.dev/vars/main/yml](roles/perryk.osticket.provision.dev/vars/main.yml) to see if there is anything you would like to change.
 
-* Browse the ansible provisioning scripts [`playbook.yml`](playbook.yml) and [`roles/perryk.osticket.provision.dev/tasks/main.yml`](roles/perryk.osticket.provision.dev/tasks/main.yml) to see if there is anything you would like to change.
+* Browse the ansible provisioning scripts [playbook.yml](playbook.yml) and [roles/perryk.osticket.provision.dev/tasks/main.yml](roles/perryk.osticket.provision.dev/tasks/main.yml) to see if there is anything you would like to change.
 
 * Set an entry in your hosts file to point 10.0.0.10 to osticket-dev . (optional)
 
@@ -43,7 +43,7 @@ Before running you will need to have done the following:
 
   Manually complete setup by visiting `http://10.0.0.10/setup` AFTER the first `vagrant up` command as per below.
 
-  After manually running setup please run the script `./ansible_vagrant_osticket_remove_setup.sh` to have the setup directory removed and the ost-config.php secured so it cannot be written any further.
+  After manually running setup, run the script [./ansible_vagrant_osticket_remove_setup.sh](ansible_vagrant_osticket_remove_setup.sh) to have the setup directory removed and the ost-config.php secured so it cannot be written any further.
 
 
 ## Running
@@ -62,7 +62,7 @@ This has the latest source code from [osTicket](https://github.com/osticket/osti
 
 If you wish to further modify the osTicket code, there is a script included which will pull a number of PRs and some branches from my own OsTicket fork.
 
-Review this file prior to use, and use [`./vagrant_osticket_modify_source.sh`](vagrant_osticket_modify_source.sh) to run it.
+Review this file prior to use, and use [./vagrant_osticket_modify_source.sh](vagrant_osticket_modify_source.sh) to run it.
 
 It is very likely this script will become out of date quickly so please use with care and check the PRs on the osTicket github site.
 
@@ -72,13 +72,13 @@ One such important command is used to deploy changes from the osTicket repo into
 
 OsTicket plugins have been cloned into the `~/osTicket/include/plugins` folder also and similarly it is possible to change directory into these, pull changes, and then change directory back to `~/osTicket` before issuing the `./manage deploy /var/www/html/osticket` command again.
 
-If you have imported a database from production it likely has email collection already configured and you will want to turn that off. Whilst cron is already missing, it is nice to have the extra reassurance that everything is turned off further. There is a script available which will set the database settings for each email account configured is set to disabled. Use [`./vagrant_osticket_stop_email_collection.sh`](vagrant_osticket_stop_email_collection.sh) to run it.
+If you have imported a database from production it likely has email collection already configured and you will want to turn that off. Whilst cron is already missing, it is nice to have the extra reassurance that everything is turned off further. There is a script available which will set the database settings for each email account configured is set to disabled. Use [./vagrant_osticket_stop_email_collection.sh](vagrant_osticket_stop_email_collection.sh) to run it.
 
 ## Todo
 
-A script to change email settings so Mailhog is actually used. Currently it is setup and available from http://10.0.0.10:8025 however.
+* Modify the stop email collection script to instead change email settings so Mailhog is actually used. Mailhog will install and be running however and accessible from http://10.0.0.10:8025 . SMTP settings can be changed to localhost for the "Hostname" and 1025 for the "Port Number"
 
-A script to take an sql dump from the existing running instance and save as database_to_import.sql .
+* A script to take an sql dump from the existing running instance and save as database_to_import.sql .
 
 Might look at these also:
 
