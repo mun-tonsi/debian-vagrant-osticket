@@ -1,4 +1,4 @@
 - src: geerlingguy.repo-epel
 - src: geerlingguy.repo-remi
-  #- src: geerlingguy.mailhog
+- src: geerlingguy.mailhog
   #- src: geerlingguy.php-xdebug
