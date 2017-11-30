@@ -29,6 +29,8 @@
       shell: |
         echo "said fred" > right.txt
         #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4101/head
+        git pull --no-edit origin refs/pull/4093/head
         git pull --no-edit origin refs/pull/4093/head
         git pull --no-edit origin refs/pull/4088/head
         git pull --no-edit origin refs/pull/4086/head
@@ -76,7 +78,8 @@
         git pull --no-edit origin refs/pull/3889/head
         git pull --no-edit origin refs/pull/3885/head
         #git pull --no-edit origin refs/pull/3883/head
-        #^removing just for the moment as merge conflict with #3795
+        #^- no longer required as conflicts with 3795
+        #   which has been updated with everything from here.
         git pull --no-edit origin refs/pull/3882/head
         git pull --no-edit origin refs/pull/3875/head
         git pull --no-edit origin refs/pull/3868/head
