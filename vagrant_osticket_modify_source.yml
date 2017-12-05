@@ -31,7 +31,6 @@
         #git checkout -b vagrant-dont-push-me
         git pull --no-edit origin refs/pull/4101/head
         git pull --no-edit origin refs/pull/4093/head
-        git pull --no-edit origin refs/pull/4093/head
         git pull --no-edit origin refs/pull/4088/head
         git pull --no-edit origin refs/pull/4086/head
         git pull --no-edit origin refs/pull/4083/head

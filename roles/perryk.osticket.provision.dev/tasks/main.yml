@@ -64,6 +64,7 @@
     - php-intl
     - php-pecl-zendopcache
     - php-ldap
+    - php-curl
 
 - name: ntpd enable + start
   systemd:
@@ -192,6 +193,7 @@
     - { repo: 'https://github.com/clonemeagain/plugin-fwd-rewriter.git', dest: '~/osTicket/include/plugins/fwd-rewriter' }
     - { repo: 'https://github.com/clonemeagain/osticket-plugin-archiver.git', dest: '~/osTicket/include/plugins/archiver' }
     - { repo: 'https://github.com/Micke1101/OSTicket-plugin-Merging.git', dest: '~/osTicket/include/plugins/merging' }
+    - { repo: 'https://github.com/clonemeagain/osticket-slack.git', dest: '~/osTicket/include/plugins/slack' }
   become_user: osticket
   register: otherreposclone 
 
