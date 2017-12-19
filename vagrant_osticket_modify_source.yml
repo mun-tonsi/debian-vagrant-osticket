@@ -29,11 +29,13 @@
       shell: |
         echo "said fred" > right.txt
         #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4124/head
+        git pull --no-edit origin refs/pull/4117/head
         git pull --no-edit origin refs/pull/4113/head
         git pull --no-edit origin refs/pull/4111/head
-        git pull --no-edit origin refs/pull/4101/head
-        git pull --no-edit origin refs/pull/4093/head
-        git pull --no-edit origin refs/pull/4101/head
+        ##git pull --no-edit origin refs/pull/4101/head
+        ##^- disabled as having troubles with this.
+        ##^- need to test out 4101 more
         git pull --no-edit origin refs/pull/4093/head
         git pull --no-edit origin refs/pull/4088/head
         git pull --no-edit origin refs/pull/4086/head
@@ -79,18 +81,22 @@
         git pull --no-edit origin refs/pull/3898/head
         git pull --no-edit origin refs/pull/3893/head
         git pull --no-edit origin refs/pull/3889/head
-        git pull --no-edit origin refs/pull/3885/head
-        #git pull --no-edit origin refs/pull/3883/head
-        #^- no longer required as conflicts with 3795
+        #git pull --no-edit origin refs/pull/3885/head
+        #^- no longer required as conflicts with 4113
         #   which has been updated with everything from here.
+        git pull --no-edit origin refs/pull/3883/head
         git pull --no-edit origin refs/pull/3882/head
         git pull --no-edit origin refs/pull/3875/head
         git pull --no-edit origin refs/pull/3868/head
-        git pull --no-edit origin refs/pull/3795/head
+        #git pull --no-edit origin refs/pull/3795/head
+        #^- no longer required as conflicts with 3883
+        #   which has been updated with everything from here.
         git pull --no-edit origin refs/pull/3738/head
         git pull --no-edit origin refs/pull/3628/head
         git pull --no-edit origin refs/pull/3625/head
         git pull --no-edit origin refs/pull/3623/head
+        git pull --no-edit origin refs/pull/3608/head
+        #^- trying this one out, to make my tickets and teams nicer
         git pull --no-edit origin refs/pull/3562/head
         git pull --no-edit origin refs/pull/3543/head
         git pull --no-edit origin refs/pull/3526/head
@@ -99,9 +105,11 @@
         git pull --no-edit origin refs/pull/3373/head
         git pull --no-edit origin refs/pull/3111/head
         git remote add perryk https://github.com/perryk/osTicket.git
-        git pull --no-edit perryk onhold-mod-by-nicktheitguy
+        #git pull --no-edit perryk onhold-mod-by-nicktheitguy
+        #^ temp removal for testing 3608
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
-        git pull --no-edit perryk mod-add-favicon
+        #git pull --no-edit perryk mod-add-favicon
+        #^ now replaced by 4117
         git pull --no-edit perryk mod-allow-agent-emails-to-users
         git pull --no-edit perryk mod-allow-agents-unassign-themselves-from-ticket
         git pull --no-edit perryk mod-enable-plugin-archiver
