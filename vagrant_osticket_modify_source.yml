@@ -41,6 +41,8 @@
         git pull --no-edit origin refs/pull/4086/head
         git pull --no-edit origin refs/pull/4083/head
         git pull --no-edit origin refs/pull/4082/head
+        git pull --no-edit origin refs/pull/4061/head
+        git pull --no-edit origin refs/pull/4060/head
         git pull --no-edit origin refs/pull/4050/head
         git pull --no-edit origin refs/pull/4049/head
         git pull --no-edit origin refs/pull/4048/head
