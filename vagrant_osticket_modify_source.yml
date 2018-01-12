@@ -97,8 +97,8 @@
         git pull --no-edit origin refs/pull/3628/head
         git pull --no-edit origin refs/pull/3625/head
         git pull --no-edit origin refs/pull/3623/head
-        git pull --no-edit origin refs/pull/3608/head
-        #^- trying this one out, to make my tickets and teams nicer
+        #git pull --no-edit origin refs/pull/3608/head
+        #^- this is also included in my mod-onhold-by-nicktheitguy
         git pull --no-edit origin refs/pull/3562/head
         git pull --no-edit origin refs/pull/3543/head
         git pull --no-edit origin refs/pull/3526/head
@@ -107,8 +107,7 @@
         git pull --no-edit origin refs/pull/3373/head
         git pull --no-edit origin refs/pull/3111/head
         git remote add perryk https://github.com/perryk/osTicket.git
-        #git pull --no-edit perryk onhold-mod-by-nicktheitguy
-        #^ temp removal for testing 3608
+        git pull --no-edit perryk mod-onhold-by-nicktheitguy
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
         #git pull --no-edit perryk mod-add-favicon
         #^ now replaced by 4117
