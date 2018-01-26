@@ -29,6 +29,8 @@
       shell: |
         echo "said fred" > right.txt
         #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4142/head
+        git pull --no-edit origin refs/pull/4134/head
         git pull --no-edit origin refs/pull/4124/head
         git pull --no-edit origin refs/pull/4117/head
         git pull --no-edit origin refs/pull/4113/head
@@ -104,6 +106,7 @@
         git pull --no-edit origin refs/pull/3526/head
         git pull --no-edit origin refs/pull/3484/head
         git pull --no-edit origin refs/pull/3456/head
+        git pull --no-edit origin refs/pull/3453/head
         git pull --no-edit origin refs/pull/3373/head
         git pull --no-edit origin refs/pull/3111/head
         git remote add perryk https://github.com/perryk/osTicket.git
