@@ -112,7 +112,7 @@
         git remote add perryk https://github.com/perryk/osTicket.git
         git pull --no-edit perryk mod-onhold-by-nicktheitguy
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
-        git pull --no-edit perryk log-assigned-when-set-closing-agent
+        git pull --no-edit perryk log-assigned-on-auto-claim-and-set-closing-agent
         #git pull --no-edit perryk mod-add-favicon
         #^ now replaced by 4117
         git pull --no-edit perryk mod-allow-agent-emails-to-users
