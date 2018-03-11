@@ -173,7 +173,7 @@
 - name: create webroot folder
   file: dest=/var/www/html/osticket state=directory owner=osticket group=osticket
 
-- name: as osticket grab the latest source from osTicket's githib
+- name: as osticket grab the latest source from osTicket's github
   git:
     repo: "https://github.com/osTicket/osTicket.git"
     dest: ~/osTicket
