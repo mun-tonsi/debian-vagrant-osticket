@@ -29,6 +29,8 @@
       shell: |
         echo "said fred" > right.txt
         #git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4219/head
+        git pull --no-edit origin refs/pull/4206/head
         git pull --no-edit origin refs/pull/4202/head
         git pull --no-edit origin refs/pull/4201/head
         git pull --no-edit origin refs/pull/4200/head
