@@ -37,7 +37,8 @@
         git pull --no-edit origin refs/pull/4195/head
         git pull --no-edit origin refs/pull/4186/head
         git pull --no-edit origin refs/pull/4184/head
-        git pull --no-edit origin refs/pull/4183/head
+        #git pull --no-edit origin refs/pull/4183/head
+        #^- conflicts with 3956 - only minor vimeo embed fix
         git pull --no-edit origin refs/pull/4174/head
         git pull --no-edit origin refs/pull/4167/head
         git pull --no-edit origin refs/pull/4162/head
@@ -126,6 +127,7 @@
         git pull --no-edit origin refs/pull/3453/head
         git pull --no-edit origin refs/pull/3373/head
         git pull --no-edit origin refs/pull/3111/head
+        git pull --no-edit origin v1.10.2
         git remote add perryk https://github.com/perryk/osTicket.git
         git pull --no-edit perryk mod-onhold-by-nicktheitguy
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
