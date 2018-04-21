@@ -36,6 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
     ansible.become = true
+    ansible.compatibility_mode = "2.0"
   end
 
   config.vm.provision :shell, inline: "echo OsTicket dev host provisioned @ http://10.0.0.10"
