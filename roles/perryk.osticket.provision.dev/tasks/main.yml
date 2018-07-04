@@ -178,7 +178,7 @@
     repo: "https://github.com/osTicket/osTicket.git"
     dest: ~/osTicket
     accept_hostkey: yes
-    version: develop
+    version: "{{ osticket_repo_version}}"
   become_user: osticket
   register: osticketrepoclone
 

@@ -9,3 +9,6 @@ osticket_adminemail: your@email.here
 osticket_dbname: osticket-dev
 osticket_dbuser: osticket
 osticket_dbpass: ostdev!@#
+
+# usual version is develop, also have 1.10.x and 1.11.x now available
+osticket_repo_version: 1.10.x
