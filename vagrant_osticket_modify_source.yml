@@ -32,6 +32,8 @@
         #https://github.com/JediKev/osTicket/commit/608dade18ce651bbc4337dc51e9d281637a094c7
         #^ This looks important
         #^ Need to test this
+        git pull --no-edit origin refs/pull/4363/head
+        git pull --no-edit origin refs/pull/4362/head
         git pull --no-edit origin refs/pull/4359/head
         git pull --no-edit origin refs/pull/4355/head
         #^ This one is important for non-html emails in 1.10.4
@@ -42,8 +44,7 @@
         #git pull --no-edit origin refs/pull/4332/head
         #^ 4332 has now been merged
         #^ This is the bootstrap cli thing which breaks us
-        #^ Actually need to revert this commit
-        git revert ee208fca8a72b437dcd392de2c463a459e83ccea --no-edit
+        #^ This is reverted above in 4363
         #git pull --no-edit origin refs/pull/4326/head
         #^ 4326 has now been merged
         #git pull --no-edit origin refs/pull/4316/head
@@ -102,9 +103,6 @@
         git pull --no-edit origin refs/pull/4117/head
         git pull --no-edit origin refs/pull/4113/head
         git pull --no-edit origin refs/pull/4111/head
-        ##git pull --no-edit origin refs/pull/4101/head
-        ##^- disabled as having troubles with this.
-        ##^- need to test out 4101 more
         git pull --no-edit origin refs/pull/4093/head
         git pull --no-edit origin refs/pull/4088/head
         git pull --no-edit origin refs/pull/4086/head
@@ -153,7 +151,7 @@
         git pull --no-edit origin refs/pull/3904/head
         git pull --no-edit origin refs/pull/3901/head
         #git pull --no-edit origin refs/pull/3899/head
-        #^- now merged into develop so no longer needed here
+        #^- 3899 has now been merged
         git pull --no-edit origin refs/pull/3898/head
         git pull --no-edit origin refs/pull/3893/head
         git pull --no-edit origin refs/pull/3889/head
