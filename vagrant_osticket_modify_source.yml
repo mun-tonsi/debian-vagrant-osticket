@@ -32,23 +32,10 @@
         #https://github.com/JediKev/osTicket/commit/608dade18ce651bbc4337dc51e9d281637a094c7
         #^ This looks important
         #^ Need to test this
-        git pull --no-edit origin refs/pull/4363/head
-        git pull --no-edit origin refs/pull/4362/head
-        git pull --no-edit origin refs/pull/4359/head
         git pull --no-edit origin refs/pull/4355/head
         #^ This one is important for non-html emails in 1.10.4
         git pull --no-edit origin refs/pull/4351/head
         git pull --no-edit origin refs/pull/4340/head
-        #git pull --no-edit origin refs/pull/4336/head
-        #^ 4336 has now been merged
-        #git pull --no-edit origin refs/pull/4332/head
-        #^ 4332 has now been merged
-        #^ This is the bootstrap cli thing which breaks us
-        #^ This is reverted above in 4363
-        #git pull --no-edit origin refs/pull/4326/head
-        #^ 4326 has now been merged
-        #git pull --no-edit origin refs/pull/4316/head
-        #^ 4316 has now been merged
         #git pull --no-edit origin refs/pull/4312/head
         #^ This looks like a nice optimisation, just is third party
         #^ Need to try this out
@@ -64,41 +51,17 @@
         #git pull --no-edit origin refs/pull/4253/head
         #^ 4253 has now been merged
         #^ This is the fix for the attachments going missing bug
-        #git pull --no-edit origin refs/pull/4247/head
-        #^ 4247 has now been merged
         git pull --no-edit origin refs/pull/4239/head
         #^ this is an important fix for saving drafts with attachments
         git pull --no-edit origin refs/pull/4229/head
-        #git pull --no-edit origin refs/pull/4219/head
-        #^ 4219 has now been merged
-        #git pull --no-edit origin refs/pull/4206/head
-        #^ 4206 has now been merged
-        #git pull --no-edit origin refs/pull/4202/head
-        #^ 4202 has now been merged
-        #git pull --no-edit origin refs/pull/4201/head
-        #^ 4201 has now been merged 
         git pull --no-edit origin refs/pull/4200/head
-        #git pull --no-edit origin refs/pull/4195/head
-        #^ 4195 has now been merged
         git pull --no-edit origin refs/pull/4186/head
         git pull --no-edit origin refs/pull/4184/head
         #git pull --no-edit origin refs/pull/4183/head
         #^- conflicts with 3956 - only minor vimeo embed fix
         #^- 4183 has been merged now so need to stop using 3956 and fix it somehow
-        #git pull --no-edit origin refs/pull/4174/head
-        #^ 4174 has now been merged
-        #git pull --no-edit origin refs/pull/4167/head
-        #^ 4167 is now closed, so need to remove
-        #git pull --no-edit origin refs/pull/4162/head
-        #^ 4162 has now been merged
-        #git pull --no-edit origin refs/pull/4161/head
-        #^- 4161 is now closed, so need to remove
-        #git pull --no-edit origin refs/pull/4160/head
-        #^ 4160 has now been merged
         git pull --no-edit origin refs/pull/4151/head
         git pull --no-edit origin refs/pull/4142/head
-        #git pull --no-edit origin refs/pull/4134/head
-        #^ 4134 has now been merged
         git pull --no-edit origin refs/pull/4124/head
         git pull --no-edit origin refs/pull/4117/head
         git pull --no-edit origin refs/pull/4113/head
@@ -112,19 +75,16 @@
         git pull --no-edit origin refs/pull/4060/head
         git pull --no-edit origin refs/pull/4050/head
         git pull --no-edit origin refs/pull/4049/head
-        #git pull --no-edit origin refs/pull/4048/head
-        #^ 4048 has now been merged
         git pull --no-edit origin refs/pull/4045/head
         git pull --no-edit origin refs/pull/4042/head
         git pull --no-edit origin refs/pull/4040/head
         git pull --no-edit origin refs/pull/4037/head
         git pull --no-edit origin refs/pull/4031/head
-        git pull --no-edit origin refs/pull/4027/head
+        #git pull --no-edit origin refs/pull/4027/head
+        #^ This now conflicts and is not needed since 4362
         git pull --no-edit origin refs/pull/4020/head
         git pull --no-edit origin refs/pull/4019/head
         git pull --no-edit origin refs/pull/4018/head
-        #git pull --no-edit origin refs/pull/4017/head
-        #^ 4017 has now been merged
         git pull --no-edit origin refs/pull/4016/head
         git pull --no-edit origin refs/pull/4014/head
         git pull --no-edit origin refs/pull/4012/head
@@ -139,32 +99,20 @@
         git pull --no-edit origin refs/pull/3976/head
         git pull --no-edit origin refs/pull/3962/head
         git pull --no-edit origin refs/pull/3958/head
-        #git pull --no-edit origin refs/pull/3956/head
-        #^need to remove as conflicts with 4183 which has now been merged
         git pull --no-edit origin refs/pull/3955/head
         git pull --no-edit origin refs/pull/3948/head
         git pull --no-edit origin refs/pull/3940/head
         git pull --no-edit origin refs/pull/3931/head
         git pull --no-edit origin refs/pull/3924/head
-        #git pull --no-edit origin refs/pull/3920/head
-        #^ 3920 has now been merged
         git pull --no-edit origin refs/pull/3904/head
         git pull --no-edit origin refs/pull/3901/head
-        #git pull --no-edit origin refs/pull/3899/head
-        #^- 3899 has now been merged
         git pull --no-edit origin refs/pull/3898/head
         git pull --no-edit origin refs/pull/3893/head
         git pull --no-edit origin refs/pull/3889/head
-        #git pull --no-edit origin refs/pull/3885/head
-        #^- no longer required as conflicts with 4113
-        #   which has been updated with everything from here.
         git pull --no-edit origin refs/pull/3883/head
         git pull --no-edit origin refs/pull/3882/head
         git pull --no-edit origin refs/pull/3875/head
         git pull --no-edit origin refs/pull/3868/head
-        #git pull --no-edit origin refs/pull/3795/head
-        #^- no longer required as conflicts with 3883
-        #   which has been updated with everything from here.
         git pull --no-edit origin refs/pull/3738/head
         git pull --no-edit origin refs/pull/3628/head
         git pull --no-edit origin refs/pull/3625/head
