@@ -32,9 +32,12 @@
         #https://github.com/JediKev/osTicket/commit/608dade18ce651bbc4337dc51e9d281637a094c7
         #^ This looks important
         #^ Need to test this
-        git pull --no-edit origin refs/pull/4355/head
+        git pull --no-edit origin refs/pull/4369/head
+        #git pull --no-edit origin refs/pull/4355/head
         #^ This one is important for non-html emails in 1.10.4
-        git pull --no-edit origin refs/pull/4351/head
+        #^ 4355 now merged
+        #git pull --no-edit origin refs/pull/4351/head
+        #^ 4351 now merged
         git pull --no-edit origin refs/pull/4340/head
         #git pull --no-edit origin refs/pull/4312/head
         #^ This looks like a nice optimisation, just is third party
@@ -106,7 +109,8 @@
         git pull --no-edit origin refs/pull/3924/head
         git pull --no-edit origin refs/pull/3904/head
         git pull --no-edit origin refs/pull/3901/head
-        git pull --no-edit origin refs/pull/3898/head
+        #git pull --no-edit origin refs/pull/3898/head
+        #^ No longer required as fix is in 4369 and 4239
         git pull --no-edit origin refs/pull/3893/head
         git pull --no-edit origin refs/pull/3889/head
         git pull --no-edit origin refs/pull/3883/head
