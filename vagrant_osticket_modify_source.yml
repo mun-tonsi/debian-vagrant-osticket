@@ -51,8 +51,8 @@
         #git pull --no-edit origin refs/pull/4253/head
         #^ 4253 has now been merged
         #^ This is the fix for the attachments going missing bug
-        ##git pull --no-edit origin refs/pull/4239/head
-        #^ this is an important fix for saving drafts with attachments
+        git pull --no-edit origin refs/pull/4239/head
+        #^ this is a new feature for saving drafts with attachments
         git pull --no-edit origin refs/pull/4229/head
         git pull --no-edit origin refs/pull/4200/head
         git pull --no-edit origin refs/pull/4186/head
