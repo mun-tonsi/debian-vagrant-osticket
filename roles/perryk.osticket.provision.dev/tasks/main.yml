@@ -198,20 +198,6 @@
   become_user: osticket
   register: otherreposclone 
 
-- name: set handler if repos have changed
-  set_fact: somethingchanged=yes
-  when: osticketrepoclone.changed or otherreposclone.changed
-  notify: deploy osticket
-
-- name: a once off osticket deploy osticket without setup now so that .phar plugins can be downloaded and other folders created
-  command: ./manage.php deploy /var/www/html/osticket
-  args:
-    chdir: /home/osticket/osTicket
-    creates: /var/www/html/osticket/include
-  when: osticketrepoclone.changed or otherreposclone.changed
-  become_user: osticket
-  ignore_errors: yes
-
   # unsure why this doesn't work for the second download but doing each download individually does work
   #- name: download .phar modules directly from osticket
   #get_url: 
@@ -225,14 +211,30 @@
 - name: download osticket ldap module directly from osticket
   get_url:
     url: http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar
-    dest: /var/www/html/osticket/include/plugins/auth-ldap.phar
+    dest: ~/osTicket/include/plugins/auth-ldap.phar
   become_user: osticket
+  register: otherreposclone 
 
 - name: download osticket filesystem module directly from osticket
   get_url:
     url: http://osticket.com/sites/default/files/download/plugin/storage-fs.phar
-    dest: /var/www/html/osticket/include/plugins/storage-fs.phar
+    dest: ~/osTicket/include/plugins/storage-fs.phar
   become_user: osticket
+  register: otherreposclone 
+
+- name: set handler if repos have changed
+  set_fact: somethingchanged=yes
+  when: osticketrepoclone.changed or otherreposclone.changed
+  notify: deploy osticket
+
+- name: a once off osticket deploy osticket without setup if never been done before so folders for attachments etc can still be done
+  command: ./manage.php deploy /var/www/html/osticket
+  args:
+    chdir: /home/osticket/osTicket
+    creates: /var/www/html/osticket/include
+  when: osticketrepoclone.changed or otherreposclone.changed
+  become_user: osticket
+  ignore_errors: yes
 
 - name: create directories for attachments and archives
   file:
