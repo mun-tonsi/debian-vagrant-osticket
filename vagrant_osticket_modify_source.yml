@@ -32,12 +32,8 @@
         #https://github.com/JediKev/osTicket/commit/608dade18ce651bbc4337dc51e9d281637a094c7
         #^ This looks important
         #^ Need to test this
+        git pull --no-edit origin refs/pull/4381/head
         git pull --no-edit origin refs/pull/4369/head
-        #git pull --no-edit origin refs/pull/4355/head
-        #^ This one is important for non-html emails in 1.10.4
-        #^ 4355 now merged
-        #git pull --no-edit origin refs/pull/4351/head
-        #^ 4351 now merged
         git pull --no-edit origin refs/pull/4340/head
         #git pull --no-edit origin refs/pull/4312/head
         #^ This looks like a nice optimisation, just is third party
@@ -51,9 +47,6 @@
         #^ Currently a conflict on this :(
         # There are other PRs around these number related to php7
         git pull --no-edit origin refs/pull/4256/head
-        #git pull --no-edit origin refs/pull/4253/head
-        #^ 4253 has now been merged
-        #^ This is the fix for the attachments going missing bug
         git pull --no-edit origin refs/pull/4239/head
         #^ this is a new feature for saving drafts with attachments
         git pull --no-edit origin refs/pull/4229/head
@@ -83,8 +76,6 @@
         git pull --no-edit origin refs/pull/4040/head
         git pull --no-edit origin refs/pull/4037/head
         git pull --no-edit origin refs/pull/4031/head
-        #git pull --no-edit origin refs/pull/4027/head
-        #^ This now conflicts and is not needed since 4362
         git pull --no-edit origin refs/pull/4020/head
         git pull --no-edit origin refs/pull/4019/head
         git pull --no-edit origin refs/pull/4018/head
@@ -109,8 +100,6 @@
         git pull --no-edit origin refs/pull/3924/head
         git pull --no-edit origin refs/pull/3904/head
         git pull --no-edit origin refs/pull/3901/head
-        #git pull --no-edit origin refs/pull/3898/head
-        #^ No longer required as fix is in 4369 and 4239
         git pull --no-edit origin refs/pull/3893/head
         git pull --no-edit origin refs/pull/3889/head
         git pull --no-edit origin refs/pull/3883/head
@@ -135,8 +124,6 @@
         git pull --no-edit perryk mod-onhold-by-nicktheitguy
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
         git pull --no-edit perryk log-assigned-on-auto-claim-and-set-closing-agent
-        #git pull --no-edit perryk mod-add-favicon
-        #^ now replaced by 4117
         git pull --no-edit perryk mod-allow-agent-emails-to-users
         git pull --no-edit perryk mod-allow-agents-unassign-themselves-from-ticket
         git pull --no-edit perryk mod-enable-plugin-archiver
@@ -149,12 +136,4 @@
       args:
         chdir: ~/osTicket
         creates: right.txt
-
-#    - name: copy in a different favicon for use with one of the mods above
-#      copy:
-#        src:  favicon.png
-#        dest: /var/www/html/osticket/favicon.ico
-#        owner: osticket
-#        group: osticket
-
 
