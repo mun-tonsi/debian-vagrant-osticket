@@ -32,8 +32,10 @@
         #https://github.com/JediKev/osTicket/commit/608dade18ce651bbc4337dc51e9d281637a094c7
         #^ This looks important
         #^ Need to test this
-        git pull --no-edit origin refs/pull/4381/head
-        git pull --no-edit origin refs/pull/4369/head
+        #git pull --no-edit origin refs/pull/4381/head
+        #^ 4381 now merged
+        #git pull --no-edit origin refs/pull/4369/head
+        #^ 4369 now merged
         git pull --no-edit origin refs/pull/4340/head
         #git pull --no-edit origin refs/pull/4312/head
         #^ This looks like a nice optimisation, just is third party
