@@ -58,7 +58,8 @@
         git pull --no-edit origin refs/pull/4142/head
         git pull --no-edit origin refs/pull/4124/head
         git pull --no-edit origin refs/pull/4117/head
-        git pull --no-edit origin refs/pull/4113/head
+        #git pull --no-edit origin refs/pull/4113/head
+        #^ Conflicts with 4389 which is now merged
         git pull --no-edit origin refs/pull/4111/head
         git pull --no-edit origin refs/pull/4093/head
         git pull --no-edit origin refs/pull/4088/head
@@ -100,6 +101,8 @@
         git pull --no-edit origin refs/pull/3901/head
         git pull --no-edit origin refs/pull/3893/head
         git pull --no-edit origin refs/pull/3889/head
+        git pull --no-edit origin refs/pull/3885/head
+        #^- Re-introduced after 4113 conflicts and newer redactor found to be trouble
         git pull --no-edit origin refs/pull/3883/head
         git pull --no-edit origin refs/pull/3882/head
         git pull --no-edit origin refs/pull/3875/head
