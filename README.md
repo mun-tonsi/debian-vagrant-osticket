@@ -43,7 +43,7 @@ Before running you will need to have done the following:
 
 * (or if not importing a db) Manually complete setup by visiting `http://10.0.0.10/setup` AFTER the first `vagrant up` command as per below.
 
-  After manually running setup, run the script `./ansible_vagrant_osticket_remove_setup.sh` to have the setup directory removed and the ost-config.php secured so it cannot be written any further.
+  After manually running setup, run the script `./vagrant_osticket_remove_setup.sh` to have the setup directory removed and the ost-config.php secured so it cannot be written any further.
 
 
 ## Running
