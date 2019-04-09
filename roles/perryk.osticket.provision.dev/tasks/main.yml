@@ -178,8 +178,8 @@
     repo: "https://github.com/osTicket/osTicket.git"
     dest: ~/osTicket
     accept_hostkey: yes
-    #Decided to not use a specific branch or tag so removed below
-    #version: "{{ osticket_repo_version}}"
+    #Decided to go back to using a specified branch for testing 1.11.x
+    version: "{{ osticket_repo_version}}"
   become_user: osticket
   register: osticketrepoclone
 
