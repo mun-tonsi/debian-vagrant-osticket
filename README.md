@@ -58,7 +58,7 @@ The usual Vagrant commands will manage Vagrant:
 
 After a successfull "vagrant up", or after you have finsihed a manual setup, you should have fully installed and running OsTicket instance.
 
-This has the latest source code from [osTicket](https://github.com/osticket/osticket).
+This has the latest source code from [osTicket](https://github.com/osticket/osticket). i.e from the develop branch, however this can be changed from the variable `osticket_repo_version` in the vars/main.yml of the deployment playbook.
 
 If you wish to further modify the osTicket code, there is a script included which will pull a number of PRs and some branches from my own OsTicket fork.
 
@@ -75,6 +75,8 @@ OsTicket plugins have been cloned into the `~/osTicket/include/plugins` folder a
 If you have imported a database from production it likely has email collection already configured and you will want to turn that off. Whilst cron is already missing, it is nice to have the extra reassurance that everything is turned off further. There is a script available which will set the database settings for each email account configured is set to disabled. Use `./vagrant_osticket_stop_email_collection.sh` to run it.
 
 There is a script which will take an sql dump from a running vagrant instance and save the file as /tmp/vagrant_database_export.datetimestamp.sql. Use `./vagrant_osticket_dumpdb.sh` to run this.  Copy this file to this repo and rename it database_to_import.sql (or use a symlink) if you want later restore this dump.
+
+There is a script which can quickly reload the database on the vagrant database without doing anything else. This needs a file named `database_to_import.sql` in the top level directory of this repo. Use `./vagrant_osticket_reloaddb.sh` to run it.
 
 ## Todo
 

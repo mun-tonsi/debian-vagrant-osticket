@@ -1,0 +1,64 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# This can be used to quickly refresh the database contents whilst leaving everything else in place
+#
+---
+
+- hosts: all
+
+  become: True
+  become_user: osticket
+
+  gather_facts: false
+
+  vars:
+
+  tasks:
+
+    - include_vars: 'roles/perryk.osticket.provision.dev/vars/main.yml'
+
+    - name: Check for preexisting database export file
+      local_action: stat path=database_to_import.sql
+      become: no
+      register: importfile
+
+    - name: remove the current dev database, maybe this should be a rename.
+      mysql_db:
+          login_user: root
+          login_password: "{{ mariadb_root_password }}"
+          db: "{{ osticket_dbname }}"
+          state: absent
+    #  notify: restart mariadb
+      when: importfile.stat.exists
+
+    - name: recreate database {{ osticket_dbname }} 
+      mysql_db: 
+        name: "{{ osticket_dbname }}"
+        login_user: root
+        login_password: "{{ mariadb_root_password }}"
+        state: present
+      register: databasecreate
+      when: importfile.stat.exists
+
+    - name: copy preexisting database export file into place
+      copy: 
+        src: database_to_import.sql
+        dest: /home/osticket/database_to_import.sql
+      when: databasecreate.changed and importfile.stat.exists
+
+    - name: import preexisting database sql file into database {{ osticket_dbname }}
+      mysql_db: 
+        name: "{{ osticket_dbname }}"
+        login_user: root
+        login_password: "{{ mariadb_root_password }}"
+        target: /home/osticket/database_to_import.sql
+        state: import
+      when: databasecreate.changed and importfile.stat.exists
+
+    - name: remove preexisting database export file
+      file:
+        path: /home/osticket/database_to_import.sql
+        state: absent
+      when: databasecreate.changed and importfile.stat.exists
+
+
