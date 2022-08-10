@@ -1,0 +1,54 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# This script will take a dump of a specific database running on the Vagrant instance and copy that file locally.
+#
+---
+- hosts: all
+
+  become: True
+  become_user: osticket
+
+  gather_facts: true
+
+  vars:
+
+  tasks:
+ 
+    - include_vars: 'roles/perryk.osticket.provision.dev/vars/main.yml'
+
+    - name: check if dump file already exists
+      stat: 
+        path: ~/vagrant_database_export.sql
+      register: exportfile
+
+    - name: stop if the dump file already exists
+      fail: 
+        msgr: "An exported dump file already exists, stopping to prevent overwriting this."
+      when: exportfile.stat.exists
+
+    - name: create database dump file in home directory
+      mysql_db:
+        state: dump
+        name: "{{ osticket_dbname }}"
+        target: ~/vagrant_database_export.sql
+        login_user: "{{ osticket_dbuser }}"
+        login_password: "{{ osticket_dbpass }}" 
+      register: createdump
+
+    - name: copy dump file back to ansible controller host
+      fetch:
+        src: /home/osticket/vagrant_database_export.sql
+        dest: /tmp/vagrant_database_export.{{ ansible_date_time.iso8601 }}.sql
+        flat: yes
+
+    - name: confirm if file now exists on controller host
+      local_action: stat path=/tmp/vagrant_database_export.{{ ansible_date_time.iso8601 }}.sql
+      become: no
+      register: copiedexportfile
+
+    - name: and file exists then remove from host
+      file:
+        path: ~/vagrant_database_export.sql
+        state: absent
+      when: copiedexportfile.stat.exists
+

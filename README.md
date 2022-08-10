@@ -74,11 +74,11 @@ OsTicket plugins have been cloned into the `~/osTicket/include/plugins` folder a
 
 If you have imported a database from production it likely has email collection already configured and you will want to turn that off. Whilst cron is already missing, it is nice to have the extra reassurance that everything is turned off further. There is a script available which will set the database settings for each email account configured is set to disabled. Use `./vagrant_osticket_stop_email_collection.sh` to run it.
 
+There is a script which will take an sql dump from a running vagrant instance and save the file as /tmp/vagrant_database_export.datetimestamp.sql. Use `./vagrant_osticket_dumpdb.sh` to run this.  Copy this file to this repo and rename it database_to_import.sql (or use a symlink) if you want later restore this dump.
+
 ## Todo
 
 * Modify the stop email collection script to instead change email settings so Mailhog is actually used. Mailhog will install and be running however and accessible from http://10.0.0.10:8025 . SMTP settings can be changed to localhost for the "Hostname" and 1025 for the "Port Number"
-
-* A script to take an sql dump from the existing running instance and save as database_to_import.sql .
 
 Might look at these also:
 
