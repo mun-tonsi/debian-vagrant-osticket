@@ -15,7 +15,7 @@ Before running you will need to have done the following:
 
 * If not already done so, install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](http://docs.ansible.com/intro_installation.html).
 
-  Currently tested using Virtualbox 5.2.22, Vagrant 2.2.4, and Ansible 2.7.10 running from Ubuntu.
+  Currently tested using Virtualbox 6.0.8, Vagrant 2.2.5, and Ansible 2.8.2 running from Ubuntu.
 
 * Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml` View [here](requirements.yml).
 
