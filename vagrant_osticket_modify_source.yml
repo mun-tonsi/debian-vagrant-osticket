@@ -28,120 +28,34 @@
     - name: run a script, only once though
       shell: |
         echo "said fred" > right.txt
-        #git checkout -b vagrant-dont-push-me
-        #https://github.com/JediKev/osTicket/commit/608dade18ce651bbc4337dc51e9d281637a094c7
-        #^ This looks important
-        #^ Need to test this
-        git pull --no-edit origin refs/pull/4487/head
-        git pull --no-edit origin refs/pull/4392/head
-        # Below was pre 2019 refresh
-        git pull --no-edit origin refs/pull/4340/head
-        #git pull --no-edit origin refs/pull/4312/head
-        #^ This looks like a nice optimisation, just is third party
-        #^ Need to try this out
-        #git pull --no-edit origin refs/pull/4305/head
-        #^ Nice feature to show random staff login background
-        #^ Need to try this out
-        git pull --no-edit origin refs/pull/4284/head
-        git pull --no-edit origin refs/pull/4269/head
-        #git pull --no-edit origin refs/pull/4265/head
-        #^ Currently a conflict on this :(
-        # There are other PRs around these number related to php7
-        git pull --no-edit origin refs/pull/4256/head
-        #git pull --no-edit origin refs/pull/4239/head
-        #^ this is a new feature for saving drafts with attachments
-        #^ guessing but likely fixed already, currently 4239 is giving a conflict
+        git checkout -b vagrant-dont-push-me
+        git pull --no-edit origin refs/pull/4312/head
+        #^ this looks like a nice optimisation, just is third party
         git pull --no-edit origin refs/pull/4229/head
-        #git pull --no-edit origin refs/pull/4200/head
-        #^ changed to 4660 but this has been merged so no longer needed
+        #^ only useful for non-english but should still work
         git pull --no-edit origin refs/pull/4186/head
-        git pull --no-edit origin refs/pull/4184/head
-        #git pull --no-edit origin refs/pull/4183/head
-        #^- conflicts with 3956 - only minor vimeo embed fix
-        #^- 4183 has been merged now so need to stop using 3956 and fix it somehow
-        #git pull --no-edit origin refs/pull/4151/head
-        #^ 4151 now merged
+        #^ timezone variable fix, could be worth keeping
         git pull --no-edit origin refs/pull/4142/head
-        git pull --no-edit origin refs/pull/4124/head
-        #git pull --no-edit origin refs/pull/4117/head
-        #^ This is for fav icons, there is a conflict currently :(
-        #git pull --no-edit origin refs/pull/4113/head
-        #^ Conflicts with 4389 which is now merged
-        git pull --no-edit origin refs/pull/4111/head
-        git pull --no-edit origin refs/pull/4093/head
-        git pull --no-edit origin refs/pull/4088/head
-        git pull --no-edit origin refs/pull/4086/head
-        git pull --no-edit origin refs/pull/4083/head
-        git pull --no-edit origin refs/pull/4082/head
-        git pull --no-edit origin refs/pull/4061/head
-        git pull --no-edit origin refs/pull/4060/head
-        git pull --no-edit origin refs/pull/4050/head
-        git pull --no-edit origin refs/pull/4049/head
-        git pull --no-edit origin refs/pull/4045/head
-        git pull --no-edit origin refs/pull/4042/head
-        git pull --no-edit origin refs/pull/4040/head
-        git pull --no-edit origin refs/pull/4037/head
-        git pull --no-edit origin refs/pull/4031/head
-        git pull --no-edit origin refs/pull/4020/head
-        git pull --no-edit origin refs/pull/4019/head
-        git pull --no-edit origin refs/pull/4018/head
-        git pull --no-edit origin refs/pull/4016/head
-        git pull --no-edit origin refs/pull/4014/head
-        git pull --no-edit origin refs/pull/4012/head
-        git pull --no-edit origin refs/pull/4008/head
-        git pull --no-edit origin refs/pull/4007/head
-        git pull --no-edit origin refs/pull/4002/head
-        git pull --no-edit origin refs/pull/4001/head
-        git pull --no-edit origin refs/pull/3996/head
-        git pull --no-edit origin refs/pull/3983/head
-        git pull --no-edit origin refs/pull/3980/head
-        git pull --no-edit origin refs/pull/3977/head
-        git pull --no-edit origin refs/pull/3976/head
+        #^ closes a html tag, might not be needed
         git pull --no-edit origin refs/pull/3962/head
-        git pull --no-edit origin refs/pull/3958/head
-        #git pull --no-edit origin refs/pull/3955/head
-        #^ conflicts with 4629 and very likely no longer needed
-        git pull --no-edit origin refs/pull/3948/head
-        git pull --no-edit origin refs/pull/3940/head
-        git pull --no-edit origin refs/pull/3931/head
-        git pull --no-edit origin refs/pull/3924/head
-        git pull --no-edit origin refs/pull/3904/head
-        git pull --no-edit origin refs/pull/3901/head
+        #^ prevent shared xss attachments
+        #git pull --no-edit origin refs/pull/3924/head
+        #^ require lock for some ticket actions, conflicting :(
         git pull --no-edit origin refs/pull/3893/head
-        git pull --no-edit origin refs/pull/3889/head
-        git pull --no-edit origin refs/pull/3885/head
-        #^- Re-introduced after 4113 conflicts and newer redactor found to be trouble
-        git pull --no-edit origin refs/pull/3883/head
-        git pull --no-edit origin refs/pull/3882/head
-        git pull --no-edit origin refs/pull/3875/head
-        git pull --no-edit origin refs/pull/3868/head
-        git pull --no-edit origin refs/pull/3738/head
-        git pull --no-edit origin refs/pull/3628/head
-        git pull --no-edit origin refs/pull/3625/head
-        git pull --no-edit origin refs/pull/3623/head
-        #git pull --no-edit origin refs/pull/3608/head
-        #^- this is also included in my mod-onhold-by-nicktheitguy
+        #^ set session cookies to be unreadable by javascript
         git pull --no-edit origin refs/pull/3562/head
-        git pull --no-edit origin refs/pull/3543/head
-        #git pull --no-edit origin refs/pull/3526/head
-        #^ no longer needed due to 4416
-        git pull --no-edit origin refs/pull/3484/head
-        git pull --no-edit origin refs/pull/3456/head
-        git pull --no-edit origin refs/pull/3453/head
+        #^ ticket status in sticky Nav, could be useful still
         git pull --no-edit origin refs/pull/3373/head
+        #^ unassign agent when assigning to a team, could be useful still
         git pull --no-edit origin refs/pull/3111/head
+        #^ needed for clonemeagain plugins
         git remote add perryk https://github.com/perryk/osTicket.git
-        git pull --no-edit perryk mod-onhold-by-nicktheitguy
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
-        git pull --no-edit perryk log-assigned-on-auto-claim-and-set-closing-agent
-        git pull --no-edit perryk mod-allow-agent-emails-to-users
-        git pull --no-edit perryk mod-allow-agents-unassign-themselves-from-ticket
-        git pull --no-edit perryk mod-enable-plugin-archiver
+        #git pull --no-edit perryk mod-enable-plugin-archiver
+        #^ not using this plugin currently
         git pull --no-edit perryk mod-reduce-min-length-agent-phone
-        #git pull --no-edit perryk mod-replace-priority-with-departments
-        git pull --no-edit perryk mod-show-offsite-images-by-default
-        #git pull --no-edit perryk hardset-brisbane-timezone
         git pull --no-edit perryk mod-remove-rego-check-status-client-page
+        git pull --no-edit perryk log-assigned-on-auto-claim-and-set-closing-agent
         ./manage.php deploy /var/www/html/osticket
       args:
         chdir: ~/osTicket
