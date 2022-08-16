@@ -1,6 +1,6 @@
 # vim: set ft=ansible et ts=2 sw=2:
 #
-# after importing an existing database this runs a mysql UPDATE command to turn off email checking
+# Useful after importing an existing database, this runs a mysql UPDATE command to turn off email checking
 #
 ---
 - hosts: all
@@ -20,7 +20,7 @@
       command: >
         mysql --user="{{ osticket_dbuser }}" --password="{{ osticket_dbpass }}" "{{ osticket_dbname }}" 
         --skip-column-names --silent
-        --execute="UPDATE ost_email SET mail_active = 0"
+        --execute="UPDATE ost_email_account SET active = 0"
       register: turnoffemails
       #always_run: True
       changed_when: False
@@ -28,4 +28,15 @@
     - name: Display stdout of command
       debug: var=turnoffemails.stdout
 
+    - name: Turn off email checking globally 
+      command: >
+        mysql --user="{{ osticket_dbuser }}" --password="{{ osticket_dbpass }}" "{{ osticket_dbname }}" 
+        --skip-column-names --silent
+        --execute="UPDATE ost_config SET value = 0 where id = 30"
+      register: turnoffglobally
+      #always_run: True
+      changed_when: False
+
+    - name: Display stdout of command
+      debug: var=turnoffglobally.stdout
 
