@@ -17,7 +17,7 @@ Before running you will need to have done the following:
 
   Currently tested using Virtualbox 6.0.8, Vagrant 2.2.5, and Ansible 2.8.2 running from Ubuntu.
 
-* Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml` View [here](requirements.yml).
+* Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml -p ./roles` View [here](requirements.yml).
 
 * Download this Vagrant box which has virtualbox guest extensions already installed.
 
