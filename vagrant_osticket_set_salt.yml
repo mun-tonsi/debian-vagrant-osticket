@@ -1,0 +1,27 @@
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# Sets the salt to a specific value.
+# This is useful when importing a backup from production.
+# If starting a new osTicket this isn't needed as Ansible will set
+# a random value when the config file is created from a template.
+#
+---
+- hosts: all
+
+  become: True
+  become_user: root
+
+  gather_facts: false
+
+  vars:
+
+  tasks:
+
+    - name: Change ost-config to set a specific value for the SALT variable
+      lineinfile:
+         path: '/var/www/html/osticket/include/ost-config.php'
+         regexp: "define\\('SECRET_SALT'"
+         line: "define('SECRET_SALT','fXUWc7VBdKj6jQ0mdFKXg2k8tr50u0vH');"
+         owner: osticket
+         group: apache
+
