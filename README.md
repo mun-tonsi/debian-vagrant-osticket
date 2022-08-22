@@ -1,12 +1,14 @@
 # Vagrant - Centos - Ansible - OsTicket and dev tools
 
-## This project configures a Vagrant managed Centos 7 VM running OsTicket for development using Ansible for provisioning.
+## This project configures a Vagrant managed Oracle Linux 8 VM running OsTicket for development using Ansible for provisioning.
 
 This differs slightly from a production instance in the following way:
 
 * Runs over http instead of https to avoid installing certs and keys.
 * Avoids using any production ssh keys.
-* Has a process to disable all email account checking. (working however is a manual step)
+* Has a process to disable all email account checking.
+* Can configure and start a new osTicket instance (or)
+* Can import from an existing database and filesystem backup.
 * Does not include adding a cron job for email collection, it would be bad if your dev setup collected real email meant for prod.
 
 ## Prerequisites
@@ -15,19 +17,19 @@ Before running you will need to have done the following:
 
 * If not already done so, install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](http://docs.ansible.com/intro_installation.html).
 
-  Currently tested using Virtualbox 6.0.8, Vagrant 2.2.5, and Ansible 2.8.2 running from Ubuntu.
+  Currently tested using Virtualbox 6.1.34, Vagrant 2.3.0, and Ansible 5.10.0 running from Ubuntu.
 
 * Install the required Ansible roles: `$ ansible-galaxy install -r requirements.yml -p ./roles` View [here](requirements.yml).
 
-* Download this Vagrant box which has virtualbox guest extensions already installed.
+* Download an Oracle Vagrant box, details [here](https://yum.oracle.com/boxes/).
 
-  `vagrant box add "geerlingguy/centos7"`
+  `vagrant init oraclelinux/8 https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json`
 
 * Optionally install the following Vagrant plugins: 
 
   `vagrant plugin install vagrant-timezone`
 
-  `vagrant plugin install vagrant-cachier`
+  `vagrant plugin install vagrant-cachier` (n.b now need to install manually from https://github.com/kshlm/vagrant-cachier/tree/update-dnf-yum v1.2.2)
 
 * Browse the ansible variables file [roles/perryk.osticket.provision.dev/vars/main/yml](roles/perryk.osticket.provision.dev/vars/main.yml) to see if there is anything you would like to change.
 
@@ -37,9 +39,11 @@ Before running you will need to have done the following:
 
   `10.0.0.10 osticket-dev`
 
-* (Optional but preferred) Have an SQL dump of a working OsTicket database in a file named `database_to_import.sql` in the top level directory of this repo.
+* (Optional) Have an SQL dump of a working OsTicket database in a file named `database_to_import.sql` in the top level directory of this repo.
 
   If this database file does not exist, this will copy in the setup folder and sample config file to the webroot so setup can be manually done.
+
+* (Optional) Have a zip backup of a working osTicket attachments folder in a file named `attachments_to_import.tgz` in the top level directory of this repo.
 
 * (or if not importing a db) Manually complete setup by visiting `http://10.0.0.10/setup` AFTER the first `vagrant up` command as per below.
 
@@ -77,6 +81,9 @@ If you have imported a database from production it likely has email collection a
 There is a script which will take an sql dump from a running vagrant instance and save the file as /tmp/vagrant_database_export.datetimestamp.sql. Use `./vagrant_osticket_dumpdb.sh` to run this.  Copy this file to this repo and rename it database_to_import.sql (or use a symlink) if you want later restore this dump.
 
 There is a script which can quickly reload the database on the vagrant database without doing anything else. This needs a file named `database_to_import.sql` in the top level directory of this repo. Use `./vagrant_osticket_reloaddb.sh` to run it.
+
+There is a script which will set a specific value to the SECRET_SALT variable. Use `./vagrant_osticket_set_salt.sh` to run this. This is useful when importing an attachments folder as this variable needs to match what is used from the previous setup.
+
 
 ## Todo
 
