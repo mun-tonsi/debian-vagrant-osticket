@@ -39,8 +39,6 @@
         #^ closes a html tag, might not be needed
         git pull --no-edit origin refs/pull/3962/head
         #^ prevent shared xss attachments
-        #git pull --no-edit origin refs/pull/3924/head
-        #^ require lock for some ticket actions, conflicting :(
         git pull --no-edit origin refs/pull/3893/head
         #^ set session cookies to be unreadable by javascript
         git pull --no-edit origin refs/pull/3562/head
@@ -51,8 +49,6 @@
         #^ needed for clonemeagain plugins
         git remote add perryk https://github.com/perryk/osTicket.git
         git pull --no-edit perryk fix-missing-agent-welcome-tickbox
-        #git pull --no-edit perryk mod-enable-plugin-archiver
-        #^ not using this plugin currently
         git pull --no-edit perryk mod-reduce-min-length-agent-phone
         git pull --no-edit perryk mod-remove-rego-check-status-client-page
         git pull --no-edit perryk log-assigned-on-auto-claim-and-set-closing-agent
