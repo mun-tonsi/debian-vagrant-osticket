@@ -6,7 +6,7 @@ ServerName {{ apache_server_name }}
   ErrorLog /var/log/httpd/{{ apache_server_name }}.error.log
   CustomLog /var/log/httpd/{{ apache_server_name }}.access.log combined
   <Directory {{ apache_document_root }}>
-       AllowOverride None
+      AllowOverride All
       Require all granted
   </Directory>
 </VirtualHost>
