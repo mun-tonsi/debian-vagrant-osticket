@@ -4,28 +4,9 @@
 #
 ---
 
-- name: yum update
-  yum:
-    name: '*'
-    state: latest
-
-- name: yum install "Development Tools" group
-  yum:
-    name: "@Development tools"
-    state: present
-
-- name: yum install standard packages we like
-  yum: 
-    pkg: "{{ item }}"
-    state: installed
-  with_items:
-      - open-vm-tools
-      - wget
-      - mc
-      - elinks
-      - vim
-      - ntp
-      - ntpdate
+- name: pip3 install PyMySQL
+  pip:
+    name: PyMySQL
 
 - name: yum install httpd and mariadb
   yum: 
@@ -33,44 +14,41 @@
     state: present
   with_items:
     - httpd
-    #- httpd-devel
+    - httpd-devel
     - mod_ssl
     - mariadb-server
-    - mariadb
-    #- mariadb-devel
-    - MySQL-python
-    - libsemanage-python
-    - policycoreutils-python
+    - mariadb-devel
+    #- MySQL-python
+    #- libsemanage-python
+    #- policycoreutils-python
     - kernel-headers
     - kernel-devel
+    #- phpMyAdmin
 
 - name: yum install everything php related from yumi repo
   yum: 
     name: "{{ item }}"
-    enablerepo: remi,remi-php56
-    #enablerepo: remi,remi-php70
+    enablerepo: remi,remi-php80
     state: present
   with_items:
-    - php
-    #- php-devel
-    - phpmyadmin
-    - php-mysql
-    - php-gd
-    - php-php-gettext
-    - php-imap
-    - php-mbstring
-    - php-xml
-    - php-pecl-apcu
-    - php-intl
-    - php-pecl-zendopcache
-    - php-ldap
-    - php-curl
+#    - php
+#    #- php-devel
+    - phpMyAdmin
+#    - php-mysql
+#    - php-gd
+#    - php-php-gettext
+#    - php-imap
+#    - php-mbstring
+#    - php-xml
+#    - php-pecl-apcu
+#    - php-intl
+#    - php-pecl-zendopcache
+#    - php-ldap
+#    - php-curl
+#    - php-json
 
-- name: ntpd enable + start
-  systemd:
-    name: ntpd
-    enabled: yes
-    state: started
+# ^ now should only need gd, gettext, imap, json, mbstring, and xml 
+# ^ no longer installing php here, now using an ansible role to do this
 
 - name: modify php config
   ini_file:
@@ -132,9 +110,18 @@
     login_password: "{{ mariadb_root_password }}"
     state: present
 
-- name: add a service user, osticket
-  user:
-    name: osticket
+# now being done in the playbook running this role
+# - name: add a service user, osticket
+#  user:
+#    name: osticket
+
+- name: create my.cnf file for osticket user 
+  template: 
+    src: 'templates/my.cnf.j2'
+    dest: '/home/osticket/.my.cnf'
+    owner: osticket
+    group: osticket
+    mode: 0600
 
 - name: create database {{ osticket_dbname }} 
   mysql_db: 
@@ -178,50 +165,22 @@
     repo: "https://github.com/osTicket/osTicket.git"
     dest: ~/osTicket
     accept_hostkey: yes
-    #Decided to go back to using a specified branch for testing 1.11.x
-    version: "{{ osticket_repo_version}}"
+    version: "{{ osticket_repo_version }}"
   become_user: osticket
   register: osticketrepoclone
 
-- name: Clone a bunch of plugin repos and place into their own folders under  main repo folder
+- name: Clone a bunch of plugin repos by clonemeagain and place into their own folders under main repo folder
   git:
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"
+    version: "{{ item.version }}"
   with_items:
-    - { repo: 'https://github.com/clonemeagain/attachment_preview.git', dest: '~/osTicket/include/plugins/attachment_preview' }
-    - { repo: 'https://github.com/clonemeagain/osticket-plugin-mentioner.git', dest: '~/osTicket/include/plugins/mentioner' }
-    - { repo: 'https://github.com/clonemeagain/plugin-autocloser.git', dest: '~/osTicket/include/plugins/autocloser' }
-    - { repo: 'https://github.com/clonemeagain/plugin-fwd-rewriter.git', dest: '~/osTicket/include/plugins/fwd-rewriter' }
-    - { repo: 'https://github.com/clonemeagain/osticket-plugin-archiver.git', dest: '~/osTicket/include/plugins/archiver' }
-    - { repo: 'https://github.com/Micke1101/OSTicket-plugin-Merging.git', dest: '~/osTicket/include/plugins/merging' }
-    - { repo: 'https://github.com/clonemeagain/osticket-slack.git', dest: '~/osTicket/include/plugins/slack' }
+    - { repo: 'https://github.com/perryk/attachment_preview.git', dest: '~/osTicket/include/plugins/attachment_preview', version: 'fixes_php8' }
+    - { repo: 'https://github.com/perryk/osticket-plugin-mentioner.git', dest: '~/osTicket/include/plugins/mentioner', version: 'fixes_php8' }
+    - { repo: 'https://github.com/perryk/plugin-autocloser.git', dest: '~/osTicket/include/plugins/autocloser', version: 'fixes_php8' }
+    #- { repo: 'https://github.com/perryk/osticket-slack.git', dest: '~/osTicket/include/plugins/slack', version: 'fixes_php8' }
   become_user: osticket
   register: otherreposclone 
-
-  # unsure why this doesn't work for the second download but doing each download individually does work
-  #- name: download .phar modules directly from osticket
-  #get_url: 
-  #  url: '{{ item.url }}'
-  #  dest: '{{ item.dest }}'
-  #become_user: osticket
-  #with_items:
-  #  - { url: 'http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar', dest: '/var/www/html/osticket/include/plugins/' }
-  #  - { url: 'http://osticket.com/sites/default/files/download/plugin/storage.fs.phar', dest: '/var/www/html/osticket/include/plugins/' }
-
-  # Discovered by plaindocs that the below 2 files are no longer available for direct download from osticket.com :(
-  #- name: download osticket ldap module directly from osticket
-  #  get_url:
-  #    url: http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar
-  #    dest: ~/osTicket/include/plugins/auth-ldap.phar
-  #  become_user: osticket
-  #  register: otherreposclone 
-
-  #- name: download osticket filesystem module directly from osticket
-  #  get_url:
-  #    url: http://osticket.com/sites/default/files/download/plugin/storage-fs.phar
-  #    dest: ~/osTicket/include/plugins/storage-fs.phar
-  #  become_user: osticket
-  #  register: otherreposclone 
 
 - name: set handler if repos have changed
   set_fact: somethingchanged=yes
@@ -255,6 +214,31 @@
     - { path: '/var/www/html/attachments' }
     - { path: '/var/www/html/archives' }
 
+- name: Check for preexisting filesystem backup file
+  local_action: stat path=attachments_to_import.tar.gz
+  become: no
+  register: importattachmentsfile
+
+- name: Fancy tar extract to just take what we need from the backup
+  unarchive:
+    src: 'attachments_to_import.tar.gz'
+    dest: '/var/www/html/attachments/'
+    extra_opts:
+      - --selinux
+      - --acls
+      - --xattrs
+      - --strip-components=4
+      - '/var/www/html/attachments/'
+  when: importattachmentsfile.stat.exists
+
+- name: run an upgrade if a database was imported
+  command: ~/osTicket/manage.php upgrade
+  args:
+    chdir: /var/www/html/osTicket
+  when: databasecreate.changed and importfile.stat.exists
+  become_user: osticket
+  #ignore_errors: yes
+  
 - name: check to see if the the osticket config file exists
   stat:
     path: /var/www/html/osticket/include/ost-config.php
