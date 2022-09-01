@@ -1,4 +1,17 @@
-- src: geerlingguy.repo-epel
+- src: robertdebock.bootstrap
+- src: robertdebock.core_dependencies
+- src: robertdebock.buildtools
+- src: robertdebock.users
+#- src: PeterMosmans.virtualbox-guest
+#- src: geerlingguy.repo-epel
 - src: geerlingguy.repo-remi
+#- src: geerlingguy.apache
+#- src: geerlingguy.mysql
+- src: geerlingguy.php-versions
+- src: geerlingguy.php
+- src: geerlingguy.php-mysql
+#- src: geerlingguy.phpmyadmin
+#- src: geerlingguy.php-xdebug
 - src: geerlingguy.mailhog
-  #- src: geerlingguy.php-xdebug
+- src: perryk.liquidprompt
+

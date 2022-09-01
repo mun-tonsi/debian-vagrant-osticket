@@ -5,10 +5,80 @@
 ---
 - hosts: all
 
+  vars:
+
+    # looks like OsTicket needs at least 8.0 now
+    php_version: "8.0"
+    #php_version: "7.4"
+    #php_enable_webserver: no
+
+    php_packages_extra:
+      - php-gd
+      - php-gettext
+      - php-imap
+      - php-mbstring
+      - php-xml
+      - php-ldap
+      - php-json
+      - php-curl
+      - php-intl
+      - php-zip
+
+    phpmyadmin_enablerepo: "remi"
+    phpmyadmin_mysql_user: "root"
+    phpmyadmin_mysql_password: "{{ mysql_root_password }}"
+
+    liquidprompt_user_to_liquidify: "osticket"
+
+    users_user_list:
+      - name: osticket
+        comment: System user to own files related to OsTicket
+        system: yes
+        cron_allow: yes
+
+  pre_tasks:
+
+    - name: Enable powertools
+      community.general.ini_file:
+        path: /etc/yum.repos.d/CentOS-Linux-PowerTools.repo
+        section: powertools
+        option: enabled
+        value: "1"
+        mode: "0644"
+      when:
+        - ansible_distribution in [ "CentOS", "RedHat" ]
+        - ansible_distribution_major_version >= "8"
+
+    - name: Enable CodeReady Builder
+      shell: dnf config-manager --set-enabled ol8_codeready_builder
+      when:
+        - ansible_distribution in ["OracleLinux" ]
+        - ansible_distribution_major_version >= "8"
+
+    - name: dnf install standard packages we like
+      dnf:
+        pkg: "{{ item }}"
+        state: installed
+      with_items:
+          - open-vm-tools
+          - wget
+          - mc
+          - vim
+          - git
+          - policycoreutils-python-utils
+
   roles:
-    - geerlingguy.repo-epel
+    - robertdebock.core_dependencies
+    - robertdebock.buildtools
+    - robertdebock.users
+    #- PeterMosmans.virtualbox-guest
+    #- geerlingguy.repo-epel
     - geerlingguy.repo-remi
-    - perryk.osticket.provision.dev
+    - geerlingguy.php-versions
+    - geerlingguy.php
+    - geerlingguy.php-mysql
     - geerlingguy.mailhog
+    #- geerlingguy.php-xdebug
+    - perryk.osticket.provision.dev
     - perryk.liquidprompt
 
