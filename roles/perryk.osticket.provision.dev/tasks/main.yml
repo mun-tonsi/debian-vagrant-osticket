@@ -8,25 +8,41 @@
   pip:
     name: PyMySQL
 
-- name: yum install httpd and mariadb
-  yum: 
+- name: dnf install httpd
+  dnf: 
     pkg: "{{ item }}"
     state: present
   with_items:
     - httpd
     - httpd-devel
     - mod_ssl
-    - mariadb-server
-    - mariadb-devel
     #- MySQL-python
     #- libsemanage-python
     #- policycoreutils-python
-    - kernel-headers
-    - kernel-devel
+    #- kernel-headers
+    #- kernel-devel
     #- phpMyAdmin
 
-- name: yum install everything php related from yumi repo
-  yum: 
+- name: dnf install mariadb
+  dnf: 
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - mariadb-server
+    - mariadb-devel
+  when: mysql_server_choice == 'mariadb'
+
+- name: dnf install offical mysql
+  dnf: 
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - mysql-server
+    - mysql-devel
+  when: mysql_server_choice == 'mysqld'
+
+- name: dnf install everything php related from yumi repo
+  dnf: 
     name: "{{ item }}"
     enablerepo: remi,remi-php80
     state: present
@@ -72,6 +88,14 @@
     name: mariadb
     enabled: yes
     state: started
+  when: mysql_server_choice == 'mariadb'
+
+- name: mysqld enable + start
+  systemd:
+    name: mysqld
+    enabled: yes
+    state: started
+  when: mysql_server_choice == 'mysqld'
 
 - name: delete anonymous MySQL server user for {{ ansible_nodename }}
   mysql_user:
@@ -98,7 +122,9 @@
       login_password: "{{ mariadb_root_password }}"
       db: test
       state: absent
-  notify: restart mariadb
+  notify: 
+    - restart mariadb
+    - restart mysqld
 
 - name: create database user {{ osticket_dbuser }} with access to database {{ osticket_dbname }}
   mysql_user:
@@ -230,15 +256,15 @@
       - --strip-components=4
       - '/var/www/html/attachments/'
   when: importattachmentsfile.stat.exists
-
+  
 - name: run an upgrade if a database was imported
   command: ~/osTicket/manage.php upgrade
   args:
-    chdir: /var/www/html/osTicket
+    chdir: /var/www/html/osticket
   when: databasecreate.changed and importfile.stat.exists
   become_user: osticket
   #ignore_errors: yes
-  
+
 - name: check to see if the the osticket config file exists
   stat:
     path: /var/www/html/osticket/include/ost-config.php
@@ -282,6 +308,14 @@
     group: root
     mode: 0644
   notify: restart httpd
+
+- name: run another upgrade if a database was imported as usually takes a couple of times to work
+  command: ~/osTicket/manage.php upgrade
+  args:
+    chdir: /var/www/html/osticket
+  when: databasecreate.changed and importfile.stat.exists
+  become_user: osticket
+  #ignore_errors: yes
 
 - name: set selinux sebooleans
   seboolean:

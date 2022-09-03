@@ -8,3 +8,10 @@
 
 - name: restart mariadb
   service: name=mariadb state=restarted
+  when: mysql_server_choice == 'mariadb'
+
+- name: restart mysqld
+  service: name=mariadb state=restarted
+  when: mysql_server_choice == 'mysqld'
+
+- name: run upgrader

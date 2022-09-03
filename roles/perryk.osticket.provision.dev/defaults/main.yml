@@ -4,3 +4,6 @@
 # used in apache vhost configuration files
 doc_root: /var/www/html
 hostname: osticket-dev
+
+# this needs to be set to either mariadb or mysqld
+mysql_server_choice: mysqld
