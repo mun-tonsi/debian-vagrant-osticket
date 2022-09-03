@@ -12,6 +12,7 @@
 - src: geerlingguy.php-mysql
 #- src: geerlingguy.phpmyadmin
 #- src: geerlingguy.php-xdebug
+- src: geerlingguy.daemonize
 - src: geerlingguy.mailhog
 - src: perryk.liquidprompt
 
