@@ -36,6 +36,9 @@
         system: yes
         cron_allow: yes
 
+    # below variable is mysqld by default but can be changed to mariadb also
+    mysql_server_choice: 'mysqld'
+
   pre_tasks:
 
     - name: Enable powertools

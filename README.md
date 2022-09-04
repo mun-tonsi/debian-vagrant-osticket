@@ -84,6 +84,10 @@ There is a script which can quickly reload the database on the vagrant database 
 
 There is a script which will set a specific value to the SECRET_SALT variable. Use `./vagrant_osticket_set_salt.sh` to run this. This is useful when importing an attachments folder as this variable needs to match what is used from the previous setup.
 
+Current default is to install Official MySQL server, however Mariadb can be used instead by setting the following variable to either mariadb or mysqld:
+
+
+
 
 ## Todo
 
