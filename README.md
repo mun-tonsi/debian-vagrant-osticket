@@ -23,7 +23,7 @@ Before running you will need to have done the following:
 
 * Download an Oracle Vagrant box, details [here](https://yum.oracle.com/boxes/).
 
-  `vagrant init oraclelinux/8 https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json`
+  `vagrant box add oraclelinux/8 https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json`
 
 * Optionally install the following Vagrant plugins: 
 

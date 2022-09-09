@@ -4,6 +4,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #config.vm.box = "centos/7"
   #config.vm.box = "geerlingguy/centos8"
   config.vm.box = "oraclelinux/8"  
+  config.vm.box_url = "https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json"
 
   config.vm.provider :virtualbox do |v|
       v.name = "osticket-dev"
@@ -33,6 +34,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #    mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
     #}
   end 
+
+  ## likely needed for EL 9
+  #config.vm.provision "shell", inline: <<-SHELL
+  #  dnf install NetworkManager-initscripts-updown
+  #SHELL
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
