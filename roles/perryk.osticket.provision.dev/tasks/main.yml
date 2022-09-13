@@ -336,6 +336,7 @@
   with_items:
     - { name: httpd_can_sendmail }
     - { name: httpd_can_connect_ldap }
+    - { name: httpd_can_network_connect }
 
 - name: httpd enable + start
   systemd:
