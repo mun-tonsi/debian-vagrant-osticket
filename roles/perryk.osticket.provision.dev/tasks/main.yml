@@ -149,6 +149,12 @@
     group: osticket
     mode: 0600
 
+- name: create my.cnf file for root user 
+  template: 
+    src: 'templates/root-my.cnf.j2'
+    dest: '/root/.my.cnf'
+    mode: 0600
+
 - name: create database {{ osticket_dbname }} 
   mysql_db: 
     name: "{{ osticket_dbname }}"
@@ -166,21 +172,26 @@
   copy: 
     src: database_to_import.sql
     dest: /home/osticket/database_to_import.sql
+  become_user: osticket
   when: databasecreate.changed and importfile.stat.exists
 
 - name: import preexisting database sql file into database {{ osticket_dbname }}
   mysql_db: 
     name: "{{ osticket_dbname }}"
-    login_user: root
-    login_password: "{{ mariadb_root_password }}"
+    #login_user: root
+    #login_password: "{{ mariadb_root_password }}"
     target: /home/osticket/database_to_import.sql
     state: import
+    use_shell: yes
   when: databasecreate.changed and importfile.stat.exists
+  #become_user: osticket
+  notify: run upgrader
 
 - name: remove preexisting database export file
   file:
     path: /home/osticket/database_to_import.sql
     state: absent
+  become_user: osticket
   when: databasecreate.changed and importfile.stat.exists
 
 - name: create webroot folder

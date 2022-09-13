@@ -15,3 +15,14 @@
   when: mysql_server_choice == 'mysqld'
 
 - name: run upgrader
+  command: ~/osTicket/manage.php upgrade
+  args:
+    chdir: /var/www/html/osticket
+  become_user: osticket
+
+- name: deploy osticket
+  command: ~/osTicket/manage.php deploy /var/www/html/osticket
+  args:
+    chdir: /home/osticket/osTicket
+  become_user: osticket
+
