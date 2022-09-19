@@ -43,7 +43,7 @@ Before running you will need to have done the following:
 
   If this database file does not exist, this will copy in the setup folder and sample config file to the webroot so setup can be manually done.
 
-* (Optional) Have a zip backup of a working osTicket attachments folder in a file named `attachments_to_import.tgz` in the top level directory of this repo.
+* (Optional) Have a zip backup of a working osTicket attachments folder in a file named `attachments_to_import.tar.gz` in the top level directory of this repo.
 
 * (or if not importing a db) Manually complete setup by visiting `http://10.0.0.10/setup` AFTER the first `vagrant up` command as per below.
 
