@@ -16,12 +16,7 @@
     - httpd
     - httpd-devel
     - mod_ssl
-    #- MySQL-python
-    #- libsemanage-python
-    #- policycoreutils-python
-    #- kernel-headers
-    #- kernel-devel
-    #- phpMyAdmin
+
 
 - name: dnf install mariadb
   dnf: 
@@ -47,21 +42,7 @@
     enablerepo: remi,remi-php80
     state: present
   with_items:
-#    - php
-#    #- php-devel
     - phpMyAdmin
-#    - php-mysql
-#    - php-gd
-#    - php-php-gettext
-#    - php-imap
-#    - php-mbstring
-#    - php-xml
-#    - php-pecl-apcu
-#    - php-intl
-#    - php-pecl-zendopcache
-#    - php-ldap
-#    - php-curl
-#    - php-json
 
 # ^ now should only need gd, gettext, imap, json, mbstring, and xml 
 # ^ no longer installing php here, now using an ansible role to do this
@@ -163,36 +144,65 @@
     state: present
   register: databasecreate
 
-- name: Check for preexisting database export file
+#- name: copy preexisting database export file into /tmp to test out already copied functionality
+#  copy:
+#    src: database_to_import.sql
+#  dest: /tmp/database_to_import.sql
+
+- name: Check for already copied database export file
+  stat:
+    path: '/tmp/database_to_import.sql'
+  register: alreadycopiedimportfile
+  when: databasecreate.changed
+
+- name: Set variable for when the already copied database export file exists
+  ansible.builtin.set_fact:
+    alreadycopiedimportfileexists: true
+  when:  databasecreate.changed and alreadycopiedimportfile.stat.exists
+
+- name: Check for local preexisting database export file
   local_action: stat path=database_to_import.sql
   become: no
-  register: importfile
+  register: localimportfile
+  when: databasecreate.changed and alreadycopiedimportfileexists is not defined
+
+- name: Set variable for when the local preexisting database export file exists
+  ansible.builtin.set_fact:
+    localimportfileexists: true
+  when: alreadycopiedimportfileexists is not defined and localimportfile.stat.exists
+
+- name: Set importfile when already copied database export file exists
+  ansible.builtin.set_fact:
+    importfile: "/tmp/database_to_import.sql"
+  when: alreadycopiedimportfileexists is defined
+
+- name: Set importfile when local preexisting database export file exists, n.b need to refer to file on vm not one on management workstation
+  ansible.builtin.set_fact:
+    importfile: "/home/osticket/database_to_import.sql"
+  when: not alreadyimportfileexists is defined and localimportfileexists is defined
 
 - name: copy preexisting database export file into place
-  copy: 
+  copy:
     src: database_to_import.sql
     dest: /home/osticket/database_to_import.sql
-  become_user: osticket
-  when: databasecreate.changed and importfile.stat.exists
+  when: databasecreate.changed and localimportfileexists is defined
 
 - name: import preexisting database sql file into database {{ osticket_dbname }}
-  mysql_db: 
+  mysql_db:
     name: "{{ osticket_dbname }}"
     #login_user: root
     #login_password: "{{ mariadb_root_password }}"
-    target: /home/osticket/database_to_import.sql
+    target: "{{ importfile }}"
     state: import
     use_shell: yes
-  when: databasecreate.changed and importfile.stat.exists
-  #become_user: osticket
+  when: databasecreate.changed and importfile is defined
   notify: run upgrader
 
 - name: remove preexisting database export file
   file:
     path: /home/osticket/database_to_import.sql
     state: absent
-  become_user: osticket
-  when: databasecreate.changed and importfile.stat.exists
+  when: databasecreate.changed and localimportfileexists is defined
 
 - name: create webroot folder
   file: dest=/var/www/html/osticket state=directory owner=osticket group=osticket
@@ -203,6 +213,7 @@
     dest: ~/osTicket
     accept_hostkey: yes
     version: "{{ osticket_repo_version }}"
+    force: yes
   become_user: osticket
   register: osticketrepoclone
 
@@ -215,7 +226,7 @@
     - { repo: 'https://github.com/perryk/attachment_preview.git', dest: '~/osTicket/include/plugins/attachment_preview', version: 'fixes_php8' }
     - { repo: 'https://github.com/perryk/osticket-plugin-mentioner.git', dest: '~/osTicket/include/plugins/mentioner', version: 'fixes_php8' }
     - { repo: 'https://github.com/perryk/plugin-autocloser.git', dest: '~/osTicket/include/plugins/autocloser', version: 'fixes_php8' }
-    #- { repo: 'https://github.com/perryk/osticket-slack.git', dest: '~/osTicket/include/plugins/slack', version: 'fixes_php8' }
+    - { repo: 'https://github.com/perryk/osticket-slack.git', dest: '~/osTicket/include/plugins/slack', version: 'fixes_php8' }
   become_user: osticket
   register: otherreposclone 
 
@@ -251,14 +262,58 @@
     - { path: '/var/www/html/attachments' }
     - { path: '/var/www/html/archives' }
 
-- name: Check for preexisting filesystem backup file
+#- name: copy preexisting attachments file into /tmp to test out already copied functionality
+#  copy:
+#    src: attachments_to_import.tar.gz
+#    dest: /tmp/attachments_to_import.tar.gz
+
+- name: Check for already copied attachments file
+  stat:
+    path: '/tmp/attachments_to_import.tar.gz'
+  register: alreadycopiedattachmentsfile
+  when: databasecreate.changed
+
+- name: Set variable for when the already copied attachments file exists
+  ansible.builtin.set_fact:
+    alreadycopiedattachmentsfileexists: true
+  when: databasecreate.changed and alreadycopiedattachmentsfile.stat.exists
+
+- name: Check for local preexisting attachments file
   local_action: stat path=attachments_to_import.tar.gz
   become: no
-  register: importattachmentsfile
+  register: localattachmentsfile
+  when: databasecreate.changed and alreadycopiedattachmentsfileexists is not defined
+
+- name: Set variable for when the local preexisting attachments file exists
+  ansible.builtin.set_fact:
+    localattachmentsfileexists: true
+  when: alreadycopiedattachmentsfileexists is not defined and localattachmentsfile.stat.exists
+
+- name: Set attachmentsfile when already copied attachments file exists
+  ansible.builtin.set_fact:
+    attachmentsfile: "/tmp/attachments_to_import.tar.gz"
+  when: alreadycopiedattachmentsfileexists is defined
+
+- name: Set attachmentsfile when local preexisting attachments file exists, n.b need to refer to file on vm not one on management workstation
+  ansible.builtin.set_fact:
+    attachmentsfile: "/home/osticket/attachments_to_import.tar.gz"
+  when: alreadycopiedattachmentsfileexists is not defined and localattachmentsfileexists is defined
+
+- name: copy preexisting attachments file into place
+  copy:
+    src: attachments_to_import.tar.gz
+    dest: /home/osticket/attachments_to_import.tar.gz
+  when: databasecreate.changed and localattachmentsfileexists is defined
+
+#- name: print value of attachmentsfile
+#  debug:
+#    msg: "{{ attachmentsfile }}"
 
 - name: Fancy tar extract to just take what we need from the backup
   unarchive:
-    src: 'attachments_to_import.tar.gz'
+    #src: '/home/osticket/attachments_to_import.tar.gz'
+    src: '{{ attachmentsfile }}'
+    remote_src: true
     dest: '/var/www/html/attachments/'
     extra_opts:
       - --selinux
@@ -266,13 +321,13 @@
       - --xattrs
       - --strip-components=4
       - '/var/www/html/attachments/'
-  when: importattachmentsfile.stat.exists
-  
+  when: databasecreate.changed and attachmentsfile is defined
+
 - name: run an upgrade if a database was imported
   command: ~/osTicket/manage.php upgrade
   args:
     chdir: /var/www/html/osticket
-  when: databasecreate.changed and importfile.stat.exists
+  when: databasecreate.changed and importfile is defined
   become_user: osticket
   #ignore_errors: yes
 
@@ -286,7 +341,7 @@
   args:
     chdir: /home/osticket/osTicket
     creates: /var/www/html/osticket/include/setup
-  when: not importfile.stat.exists and not ostconfigfile.stat.exists
+  when: not importfile is defined and not ostconfigfile.stat.exists
   become_user: osticket
   ignore_errors: yes
 
@@ -299,7 +354,7 @@
     mode: 0660
     remote_src: yes
     setype: httpd_sys_rw_content_t
-  when: not importfile.stat.exists and not ostconfigfile.stat.exists
+  when: not importfile is defined and not ostconfigfile.stat.exists
 
 - name: Use template to generate ost-config.php config file for osticket if importfile did exist and if config file not already in place
   template:
@@ -309,7 +364,7 @@
     group: apache
     mode: 0640
     setype: httpd_sys_content_t
-  when: importfile.stat.exists and not ostconfigfile.stat.exists
+  when: importfile is defined and not ostconfigfile.stat.exists
 
 - name: Use template to generate httpd config for osticket
   template:
@@ -317,14 +372,14 @@
     dest: /etc/httpd/conf.d/osticket.conf
     owner: root
     group: root
-    mode: 0644
+    mode: 0640
   notify: restart httpd
 
 - name: run another upgrade if a database was imported as usually takes a couple of times to work
   command: ~/osTicket/manage.php upgrade
   args:
     chdir: /var/www/html/osticket
-  when: databasecreate.changed and importfile.stat.exists
+  when: databasecreate.changed and importfile is defined
   become_user: osticket
   #ignore_errors: yes
 
@@ -337,10 +392,13 @@
     - { name: httpd_can_sendmail }
     - { name: httpd_can_connect_ldap }
     - { name: httpd_can_network_connect }
+  notify: restart httpd
 
 - name: httpd enable + start
   systemd:
     name: httpd
     enabled: yes
     state: started
+
+# Need a cron entry for apache user to run osticket cron to check email every 5 mins, only once all email accounts are confirmed working
 
