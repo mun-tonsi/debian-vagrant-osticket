@@ -10,7 +10,7 @@ osticket_dbname: osticket-dev
 osticket_dbuser: osticket
 osticket_dbpass: ostdev!@#
 
-# usual version is develop, also have develop-next if looking at v1.11.x
-# can also use a tag, this might be better
+# usual version is the branch called develop, can also use a tag
 osticket_repo_version: develop
 #osticket_repo_version: v1.10.4
+#osticket_repo_version: 1.17.x
