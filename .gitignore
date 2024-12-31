@@ -1,0 +1,5 @@
+.vagrant/
+
+# Ignore non "local" Ansible roles
+roles/
+!roles/perryk*/
